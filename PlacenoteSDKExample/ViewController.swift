@@ -12,7 +12,16 @@ import SceneKit
 import ARKit
 import PlacenoteSDK
 
-class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UITableViewDelegate, UITableViewDataSource, PNDelegate, CLLocationManagerDelegate {
+class ViewController
+  : UIViewController
+  , UIImagePickerControllerDelegate
+  , UINavigationControllerDelegate
+  , ARSCNViewDelegate
+  , ARSessionDelegate
+  , UITableViewDelegate
+  , UITableViewDataSource
+  , PNDelegate
+  , CLLocationManagerDelegate {
 
 
   //UI Elements
@@ -27,7 +36,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
   @IBOutlet var planeDetLabel: UILabel!
   @IBOutlet var planeDetSelection: UISwitch!
   @IBOutlet var fileTransferLabel: UILabel!
-
   
   //AR Scene
   private var scnScene: SCNScene!
@@ -57,6 +65,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
   private var locationManager: CLLocationManager!
   private var lastLocation: CLLocation? = nil
 
+  private var pose: SCNVector3!
+  
   //Setup view once loaded
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -88,7 +98,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
     planeDetLabel.isHidden = true
     planeDetSelection.isHidden = true
     
-
     locationManager = CLLocationManager()
     locationManager.requestWhenInUseAuthorization()
 
@@ -98,7 +107,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
         locationManager.startUpdatingLocation()
     }
   }
-
+  
   //Initialize view and scene
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
@@ -495,17 +504,41 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
     LibPlacenote.instance.fetchMapList(listCb: onMapList)
   }
 
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+    shapeManager.spawnPlaneShape(position: self.pose, image: chosenImage)
+    dismiss(animated: true, completion: nil)
+  }
+  
   @objc func handleTap(sender: UITapGestureRecognizer) {
     let tapLocation = sender.location(in: scnView)
     let hitTestResults = scnView.hitTest(tapLocation, types: .featurePoint)
     if let result = hitTestResults.first {
       let pose = LibPlacenote.instance.processPose(pose: result.worldTransform)
-      shapeManager.spawnRandomShape(position: pose.position())
-
+      
+      let alert = UIAlertController(title: "Shape type", message: nil, preferredStyle: .actionSheet)
+      let addPlaneAction = UIAlertAction(title: "Plane", style: .default) { [weak self] action in
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .savedPhotosAlbum
+        self?.pose = pose.position()
+        self?.present(imagePicker, animated:true, completion: nil)
+      }
+      let addRandomAction = UIAlertAction(title: "Random", style: .default) { [weak self] action in
+       self?.shapeManager.spawnRandomShape(position: pose.position())
+      }
+      let addCancelAction = UIAlertAction(title: "Cancel", style: .default) { [] action in
+        // do nothing
+      }
+      alert.addAction(addPlaneAction)
+      alert.addAction(addRandomAction)
+      alert.addAction(addCancelAction)
+      
+      self.present(alert, animated: true, completion: nil)
     }
   }
-
-
+  
   // MARK: - ARSCNViewDelegate
 
   // Override to create and configure nodes for anchors added to the view's session.

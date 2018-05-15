@@ -125,12 +125,26 @@ class ShapeManager {
     shapeTypes.removeAll()
   }
   
-  
+  func spawnPlaneShape(position: SCNVector3, image: UIImage) {
+    placePlaneShape(position: position, image: image)
+  }
   
   func spawnRandomShape(position: SCNVector3) {
     
     let shapeType: ShapeType = ShapeType.random()
     placeShape(position: position, type: shapeType)
+  }
+  
+  func placePlaneShape (position: SCNVector3, image: UIImage) {
+    
+    let geometryNode: SCNNode = createPlaneShape(position: position, image: image)
+    
+    shapePositions.append(position)
+    shapeTypes.append(ShapeType.Plane)
+    shapeNodes.append(geometryNode)
+    
+    scnScene.rootNode.addChildNode(geometryNode)
+    shapesDrawn = true
   }
   
   func placeShape (position: SCNVector3, type: ShapeType) {
@@ -145,8 +159,17 @@ class ShapeManager {
     shapesDrawn = true
   }
   
-  func createShape (position: SCNVector3, type: ShapeType) -> SCNNode {
+  func createPlaneShape(position: SCNVector3, image: UIImage) -> SCNNode {
+    let geometry:SCNGeometry = ShapeType.createPlaneShape(image: image)
     
+    let geometryNode = SCNNode(geometry: geometry)
+    geometryNode.position = position
+    geometryNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
+    
+    return geometryNode
+  }
+  
+  func createShape (position: SCNVector3, type: ShapeType) -> SCNNode {
     let geometry:SCNGeometry = ShapeType.generateGeometry(s_type: type)
     let color = generateRandomColor()
     geometry.materials.first?.diffuse.contents = color

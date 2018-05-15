@@ -19,6 +19,7 @@ public enum ShapeType:Int {
   case Cylinder
   case Cone
   case Tube
+  case Plane
   
   static func random() -> ShapeType {
     let maxValue = Tube.rawValue
@@ -26,6 +27,18 @@ public enum ShapeType:Int {
     return ShapeType(rawValue: Int(rand))!
   }
   
+  static func createPlaneShape(image: UIImage) -> SCNGeometry {
+    let imageRatio = image.size.height / image.size.width
+    let desiredPlaneWidth: CGFloat = 1
+    
+    let geometry = SCNPlane(width: desiredPlaneWidth, height: desiredPlaneWidth * imageRatio)
+    let planeMaterial = SCNMaterial()
+    planeMaterial.diffuse.contents = image
+    planeMaterial.isDoubleSided = true
+    geometry.firstMaterial = planeMaterial
+    
+    return geometry
+  }
   
   static func generateGeometry(s_type:ShapeType) -> SCNGeometry {
     
@@ -44,6 +57,8 @@ public enum ShapeType:Int {
       geometry = SCNPyramid(width:1.0, height:1.0, length:1.0)
     case ShapeType.Torus:
       geometry = SCNTorus(ringRadius:1.0, pipeRadius:0.1)
+    case ShapeType.Plane:
+      geometry = SCNPlane(width:1.0, height:1.0)
     case ShapeType.Box: //
       fallthrough
     default:
