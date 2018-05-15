@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        LibPlacenote.instance.initialize(apiKey: Enter_API_KEY_here)
+        LibPlacenote.instance.initialize(apiKey: "0iolgkgimdmyb4arzyrueydz7un2x1dqdswtaiunhuk61di6kfb452kr19yby1w9pirbgp075xf64ir6s3ye0o12livb9ubsjh9z")
 
         return true
     }
