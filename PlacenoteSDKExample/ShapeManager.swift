@@ -44,6 +44,12 @@ func generateRandomColor() -> UIColor {
   return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
 }
 
+func convertToDictionary(from text: String) -> [String: String] {
+  guard let data = text.data(using: .utf8) else { return [:] }
+  let anyResult: Any? = try? JSONSerialization.jsonObject(with: data, options: [])
+  return anyResult as? [String: String] ?? [:]
+}
+
 
 //Class to manage a list of shapes to be view in Augmented Reality including spawning, managing a list and saving/retrieving from persistent memory using JSON
 class ShapeManager {
@@ -54,6 +60,7 @@ class ShapeManager {
   private var shapePositions: [SCNVector3] = []
   private var shapeTypes: [ShapeType] = []
   private var shapeNodes: [SCNNode] = []
+  private var shapeAttributes: [[String: String]] = []
   
   public var shapesDrawn: Bool! = false
 
@@ -67,7 +74,13 @@ class ShapeManager {
     var shapeArray: [[String: [String: String]]] = []
     if (shapePositions.count > 0) {
       for i in 0...(shapePositions.count-1) {
-        shapeArray.append(["shape": ["style": "\(shapeTypes[i].rawValue)", "x": "\(shapePositions[i].x)",  "y": "\(shapePositions[i].y)",  "z": "\(shapePositions[i].z)" ]])
+        shapeArray.append([
+          "shape": [
+            "style": "\(shapeTypes[i].rawValue)",
+            "attributes": "\(shapeAttributes[i])",
+            "x": "\(shapePositions[i].x)",  "y": "\(shapePositions[i].y)",  "z": "\(shapePositions[i].z)"
+          ]
+          ])
       }
     }
     return shapeArray
@@ -87,10 +100,12 @@ class ShapeManager {
       let y_string: String = item["shape"]!["y"]!
       let z_string: String = item["shape"]!["z"]!
       let position: SCNVector3 = SCNVector3(x: Float(x_string)!, y: Float(y_string)!, z: Float(z_string)!)
+      let attributes: [String: String] = convertToDictionary(from: item["shape"]!["attributes"]!)
       let type: ShapeType = ShapeType(rawValue: Int(item["shape"]!["style"]!)!)!
       shapePositions.append(position)
       shapeTypes.append(type)
       shapeNodes.append(createShape(position: position, type: type))
+      shapeAttributes.append(attributes)
 
       print ("Shape Manager: Retrieved " + String(describing: type) + " type at position" + String (describing: position))
     }
@@ -143,6 +158,13 @@ class ShapeManager {
     shapeTypes.append(ShapeType.Plane)
     shapeNodes.append(geometryNode)
     
+    var attributes: [String: String] = [:]
+    
+    //let imageData:NSData = UIImagePNGRepresentation(image)! as NSData
+    //let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
+   // attributes["image"] = strBase64
+    shapeAttributes.append(attributes)
+    
     scnScene.rootNode.addChildNode(geometryNode)
     shapesDrawn = true
   }
@@ -154,6 +176,9 @@ class ShapeManager {
     shapePositions.append(position)
     shapeTypes.append(type)
     shapeNodes.append(geometryNode)
+    
+    let attributes: [String: String] = [:]
+    shapeAttributes.append(attributes)
     
     scnScene.rootNode.addChildNode(geometryNode)
     shapesDrawn = true
