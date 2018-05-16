@@ -62,7 +62,7 @@ class ShapeManager {
   private var shapePositions: [SCNVector3] = []
   private var shapeTypes: [ShapeType] = []
   private var shapeNodes: [SCNNode] = []
-  private var shapeAttributes: [[String: String]] = []
+  private var shapeAttributes: [Int64] = []
   
   public var shapesDrawn: Bool! = false
 
@@ -121,12 +121,12 @@ class ShapeManager {
       let y_string: String = item["shape"]!["y"]!
       let z_string: String = item["shape"]!["z"]!
       let position: SCNVector3 = SCNVector3(x: Float(x_string)!, y: Float(y_string)!, z: Float(z_string)!)
-      let attributes: [String: String] = convertToDictionary(from: item["shape"]!["attributes"]!)
+      let attributesId: Int64 = Int64(item["shape"]!["attributes"]!)!
       let type: ShapeType = ShapeType(rawValue: Int(item["shape"]!["style"]!)!)!
       shapePositions.append(position)
       shapeTypes.append(type)
       shapeNodes.append(createShape(position: position, type: type))
-      shapeAttributes.append(attributes)
+      shapeAttributes.append(attributesId)
 
       print ("Shape Manager: Retrieved " + String(describing: type) + " type at position" + String (describing: position))
     }
@@ -181,13 +181,32 @@ class ShapeManager {
     
     var attributes: [String: String] = [:]
     
-    //let imageData:NSData = UIImagePNGRepresentation(image)! as NSData
-    //let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
-   // attributes["image"] = strBase64
-    shapeAttributes.append(attributes)
+    let imageData:NSData = UIImagePNGRepresentation(image)! as NSData
+    let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
+    attributes["image"] = strBase64
+    
+    let attributesId = saveAttributes(attributes: attributes)
+    shapeAttributes.append(attributesId)
     
     scnScene.rootNode.addChildNode(geometryNode)
     shapesDrawn = true
+  }
+  
+  func saveAttributes(attributes: [String: String]) -> Int64 {
+    let nextAttributesId = getAutoIncremenet()
+    let entity = NSEntityDescription.entity(forEntityName: "Attributes", in: self.dbManager)
+    let newAttributes = NSManagedObject(entity: entity!, insertInto: self.dbManager)
+    
+    newAttributes.setValue(nextAttributesId, forKey: "objectId")
+    newAttributes.setValue(attributes, forKey: "data")
+    
+    do {
+      try self.dbManager.save()
+    } catch {
+      print("Failed saving")
+    }
+    
+    return nextAttributesId
   }
   
   func placeShape (position: SCNVector3, type: ShapeType) {
@@ -199,7 +218,8 @@ class ShapeManager {
     shapeNodes.append(geometryNode)
     
     let attributes: [String: String] = [:]
-    shapeAttributes.append(attributes)
+    let attributesId = saveAttributes(attributes: attributes)
+    shapeAttributes.append(attributesId)
     
     scnScene.rootNode.addChildNode(geometryNode)
     shapesDrawn = true
