@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 import SceneKit
 
 extension String {
@@ -56,6 +57,7 @@ class ShapeManager {
   
   private var scnScene: SCNScene!
   private var scnView: SCNView!
+  private var dbManager: NSManagedObjectContext!
   
   private var shapePositions: [SCNVector3] = []
   private var shapeTypes: [ShapeType] = []
@@ -65,9 +67,28 @@ class ShapeManager {
   public var shapesDrawn: Bool! = false
 
   
-  init(scene: SCNScene, view: SCNView) {
+  init(scene: SCNScene, view: SCNView, dbObjectContext: NSManagedObjectContext) {
     scnScene = scene
     scnView = view
+    dbManager = dbObjectContext
+  }
+  
+  func getAutoIncremenet() -> Int64   {
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Attributes")
+    let sortDescriptor = NSSortDescriptor(key: "objectId", ascending: true, selector: #selector(NSString.compare(_:)))
+    fetchRequest.sortDescriptors = [sortDescriptor]
+    
+    var newID:Int64 = 0
+    do {
+      let result = try self.dbManager.fetch(fetchRequest).last
+      if result != nil {
+        newID = ((result! as AnyObject).value(forKey: "objectId") as! Int64) + 1
+      }
+    } catch let error as NSError {
+      NSLog("Unresolved error \(error)")
+    }
+    
+    return newID
   }
   
   func getShapeArray() -> [[String: [String: String]]] {

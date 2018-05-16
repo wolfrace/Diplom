@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 import CoreLocation
 import SceneKit
 import ARKit
@@ -73,8 +74,26 @@ class ViewController
     setupView()
     setupScene()
 
+    //
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+    
+    let entity = NSEntityDescription.entity(forEntityName: "Attributes", in: context)
+    let newObject = NSManagedObject(entity: entity!, insertInto: context)
+    
+    newObject.setValue(5, forKey: "objectId")
+    
+    do {
+      try context.save()
+    } catch {
+      print("Failed saving")
+    }
+    
+    //
+    
     //App Related initializations
-    shapeManager = ShapeManager(scene: scnScene, view: scnView)
+    shapeManager = ShapeManager(scene: scnScene, view: scnView, dbObjectContext: context)
     tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
     tapRecognizer!.numberOfTapsRequired = 1
     tapRecognizer!.isEnabled = false
@@ -106,6 +125,11 @@ class ViewController
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         locationManager.startUpdatingLocation()
     }
+  }
+  
+  override func didReceiveMemoryWarning() {
+    super.didReceiveMemoryWarning()
+    // Dispose of any resources that can be recreated.
   }
   
   //Initialize view and scene
@@ -516,7 +540,7 @@ class ViewController
     if let result = hitTestResults.first {
       let pose = LibPlacenote.instance.processPose(pose: result.worldTransform)
       
-      let alert = UIAlertController(title: "Shape type", message: nil, preferredStyle: .actionSheet)
+      let alert = UIAlertController(title: "Choose shape", message: nil, preferredStyle: .actionSheet)
       let addPlaneAction = UIAlertAction(title: "Plane", style: .default) { [weak self] action in
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
