@@ -45,12 +45,17 @@ func generateRandomColor() -> UIColor {
   return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
 }
 
-func convertToDictionary(from text: String) -> [String: String] {
+func jsonToDictionary(from text: String) -> [String: String] {
   guard let data = text.data(using: .utf8) else { return [:] }
   let anyResult: Any? = try? JSONSerialization.jsonObject(with: data, options: [])
   return anyResult as? [String: String] ?? [:]
 }
 
+func dictionaryToJson(from dictionary: [String: String]) -> String {
+  let jsonData = try? JSONSerialization.data(withJSONObject: dictionary, options: [])
+  let jsonString = String(data: jsonData!, encoding: .utf8)
+  return jsonString!
+}
 
 //Class to manage a list of shapes to be view in Augmented Reality including spawning, managing a list and saving/retrieving from persistent memory using JSON
 class ShapeManager {
@@ -123,9 +128,11 @@ class ShapeManager {
       let position: SCNVector3 = SCNVector3(x: Float(x_string)!, y: Float(y_string)!, z: Float(z_string)!)
       let attributesId: Int64 = Int64(item["shape"]!["attributes"]!)!
       let type: ShapeType = ShapeType(rawValue: Int(item["shape"]!["style"]!)!)!
+      let attributes = getAttributes(id: attributesId)
+      
       shapePositions.append(position)
       shapeTypes.append(type)
-      shapeNodes.append(createShape(position: position, type: type))
+      shapeNodes.append(createShape(position: position, type: type, attributes: attributes))
       shapeAttributes.append(attributesId)
 
       print ("Shape Manager: Retrieved " + String(describing: type) + " type at position" + String (describing: position))
@@ -168,28 +175,26 @@ class ShapeManager {
   func spawnRandomShape(position: SCNVector3) {
     
     let shapeType: ShapeType = ShapeType.random()
-    placeShape(position: position, type: shapeType)
+    placeShape(position: position, type: shapeType, attributes: [:])
   }
   
-  func placePlaneShape (position: SCNVector3, image: UIImage) {
-    
-    let geometryNode: SCNNode = createPlaneShape(position: position, image: image)
-    
-    shapePositions.append(position)
-    shapeTypes.append(ShapeType.Plane)
-    shapeNodes.append(geometryNode)
-    
+  func getAttributes(id: Int64) -> [String: String] {
     var attributes: [String: String] = [:]
     
-    let imageData:NSData = UIImagePNGRepresentation(image)! as NSData
-    let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
-    attributes["image"] = strBase64
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Attributes")
+    request.predicate = NSPredicate(format: "objectId == %d", id)
+    request.returnsObjectsAsFaults = false
     
-    let attributesId = saveAttributes(attributes: attributes)
-    shapeAttributes.append(attributesId)
+    do {
+      let result = try self.dbManager.fetch(request)
+      for data in result as! [NSManagedObject] {
+        attributes = jsonToDictionary(from: (data.value(forKey: "data") as! String))
+      }
+    } catch {
+      print("Failed")
+    }
     
-    scnScene.rootNode.addChildNode(geometryNode)
-    shapesDrawn = true
+    return attributes
   }
   
   func saveAttributes(attributes: [String: String]) -> Int64 {
@@ -198,7 +203,7 @@ class ShapeManager {
     let newAttributes = NSManagedObject(entity: entity!, insertInto: self.dbManager)
     
     newAttributes.setValue(nextAttributesId, forKey: "objectId")
-    newAttributes.setValue(attributes, forKey: "data")
+    newAttributes.setValue(dictionaryToJson(from: attributes), forKey: "data")
     
     do {
       try self.dbManager.save()
@@ -209,24 +214,33 @@ class ShapeManager {
     return nextAttributesId
   }
   
-  func placeShape (position: SCNVector3, type: ShapeType) {
+  func placePlaneShape (position: SCNVector3, image: UIImage) {
+    var attributes: [String: String] = [:]
     
-    let geometryNode: SCNNode = createShape(position: position, type: type)
+    let imageData:NSData = UIImagePNGRepresentation(image)! as NSData
+    let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
+    attributes["image"] = strBase64
+    
+    placeShape(position: position, type: ShapeType.Plane, attributes: attributes)
+  }
+  
+  func placeShape (position: SCNVector3, type: ShapeType, attributes: [String: String]) {
+    
+    let geometryNode: SCNNode = createShape(position: position, type: type, attributes: attributes)
     
     shapePositions.append(position)
     shapeTypes.append(type)
     shapeNodes.append(geometryNode)
     
-    let attributes: [String: String] = [:]
     let attributesId = saveAttributes(attributes: attributes)
     shapeAttributes.append(attributesId)
     
     scnScene.rootNode.addChildNode(geometryNode)
     shapesDrawn = true
   }
-  
-  func createPlaneShape(position: SCNVector3, image: UIImage) -> SCNNode {
-    let geometry:SCNGeometry = ShapeType.createPlaneShape(image: image)
+    
+  func createShape (position: SCNVector3, type: ShapeType, attributes: [String: String]) -> SCNNode {
+    let geometry:SCNGeometry = createGeometry(type: type, attributes: attributes)
     
     let geometryNode = SCNNode(geometry: geometry)
     geometryNode.position = position
@@ -235,17 +249,19 @@ class ShapeManager {
     return geometryNode
   }
   
-  func createShape (position: SCNVector3, type: ShapeType) -> SCNNode {
-    let geometry:SCNGeometry = ShapeType.generateGeometry(s_type: type)
-    let color = generateRandomColor()
-    geometry.materials.first?.diffuse.contents = color
-    
-    let geometryNode = SCNNode(geometry: geometry)
-    geometryNode.position = position
-    geometryNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
-    
-    return geometryNode
+  func createGeometry(type: ShapeType, attributes: [String: String]) -> SCNGeometry {
+    switch type {
+    case ShapeType.Plane:
+      let imageBase64 = attributes["image"]!
+      let dataDecoded : Data = Data(base64Encoded: imageBase64, options: .ignoreUnknownCharacters)!
+      let image = UIImage(data: dataDecoded)!
+      return ShapeType.createPlaneShape(image: image)
+    default:
+      let geometry = ShapeType.generateGeometry(s_type: type)
+      let color = generateRandomColor()
+      geometry.materials.first?.diffuse.contents = color
+      return geometry
+    }
   }
-  
   
 }

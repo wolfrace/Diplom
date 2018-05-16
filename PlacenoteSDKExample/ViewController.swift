@@ -74,24 +74,9 @@ class ViewController
     setupView()
     setupScene()
 
-    //
-    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = appDelegate.persistentContainer.viewContext
-    
-    let entity = NSEntityDescription.entity(forEntityName: "Attributes", in: context)
-    let newObject = NSManagedObject(entity: entity!, insertInto: context)
-    
-    newObject.setValue(5, forKey: "objectId")
-    
-    do {
-      try context.save()
-    } catch {
-      print("Failed saving")
-    }
-    
-    //
-    
+        
     //App Related initializations
     shapeManager = ShapeManager(scene: scnScene, view: scnView, dbObjectContext: context)
     tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
