@@ -5,7 +5,6 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -161,12 +160,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" adjustsFontForContentSizeCategory="YES" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="XVm-3C-74x" userLabel="PeriodEdit">
-                                <rect key="frame" x="16" y="89" width="280" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="XVm-3C-74x" secondAttribute="height" multiplier="65:3" id="2uD-aX-As4"/>
-                                    <constraint firstAttribute="width" secondItem="XVm-3C-74x" secondAttribute="height" multiplier="288:35" id="mBm-1Y-2af"/>
-                                </constraints>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" adjustsFontForContentSizeCategory="YES" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="XVm-3C-74x" userLabel="PeriodEdit">
+                                <rect key="frame" x="21" y="89" width="275" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <string key="placeholder" base64-UTF8="YES">
 FkVudGVyIHBlcmlvZA
 </string>
@@ -174,19 +170,15 @@ FkVudGVyIHBlcmlvZA
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.94999998807907104" contentMode="scaleToFill" fixedFrame="YES" text="Special offer" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gaw-MA-Yq9">
-                                <rect key="frame" x="16" y="176" width="280" height="208"/>
+                                <rect key="frame" x="21" y="176" width="275" height="208"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lde-2f-eqc" userLabel="NextButton">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lde-2f-eqc" userLabel="NextButton">
                                 <rect key="frame" x="204" y="512" width="92" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="Lde-2f-eqc" secondAttribute="height" multiplier="39:22" id="DNX-S3-qbD"/>
-                                    <constraint firstAttribute="height" constant="88" id="Mf1-mu-kdl"/>
-                                    <constraint firstAttribute="width" secondItem="Lde-2f-eqc" secondAttribute="height" multiplier="23:11" id="nNQ-NZ-TeJ"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Next">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -197,16 +189,6 @@ FkVudGVyIHBlcmlvZA
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="XVm-3C-74x" firstAttribute="top" secondItem="1Os-LD-ZKZ" secondAttribute="bottom" constant="69" id="Gfr-CA-rAq"/>
-                            <constraint firstItem="XVm-3C-74x" firstAttribute="trailing" secondItem="z04-on-ZiR" secondAttribute="trailingMargin" constant="5" id="OXZ-Ec-zVF"/>
-                            <constraint firstItem="XVm-3C-74x" firstAttribute="trailing" secondItem="z04-on-ZiR" secondAttribute="trailingMargin" constant="20" id="XfC-aj-4ar"/>
-                            <constraint firstItem="XVm-3C-74x" firstAttribute="leading" secondItem="z04-on-ZiR" secondAttribute="leadingMargin" constant="20" id="Zx2-3o-AeG"/>
-                            <constraint firstItem="XVm-3C-74x" firstAttribute="leading" secondItem="z04-on-ZiR" secondAttribute="leadingMargin" constant="33" id="eeW-my-285"/>
-                            <constraint firstItem="Lde-2f-eqc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="z04-on-ZiR" secondAttribute="leading" constant="20" symbolic="YES" id="mXZ-Aj-jF7"/>
-                            <constraint firstItem="XVm-3C-74x" firstAttribute="leading" secondItem="z04-on-ZiR" secondAttribute="leadingMargin" constant="5" id="oL6-3K-aQq"/>
-                            <constraint firstItem="HNb-36-r46" firstAttribute="top" secondItem="Lde-2f-eqc" secondAttribute="bottom" constant="34" id="z1T-It-jvw"/>
-                        </constraints>
                     </view>
                     <connections>
                         <outlet property="nextBtn" destination="Lde-2f-eqc" id="acU-VZ-cSq"/>

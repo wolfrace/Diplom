@@ -244,7 +244,7 @@ class ShapeManager {
     
     let geometryNode = SCNNode(geometry: geometry)
     geometryNode.position = position
-    geometryNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
+    //geometryNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
     
     return geometryNode
   }

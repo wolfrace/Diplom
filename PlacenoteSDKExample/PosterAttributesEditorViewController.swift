@@ -17,6 +17,7 @@ class PosterAttributesEditorViewController
   @IBOutlet weak var periodTextField: UITextField!
   @IBOutlet weak var specialOfferTextView: UITextView!
   @IBOutlet weak var nextBtn: UIButton!
+  var editFinishedDelegate: ((_ period: String, _ specialOffer: String) -> Void)!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -24,6 +25,10 @@ class PosterAttributesEditorViewController
     self.specialOfferTextView.layer.borderColor = UIColor.black.cgColor
     self.specialOfferTextView.layer.borderWidth = 1
     self.specialOfferTextView.layer.cornerRadius = 5
+  }
+  
+  func doOnEditFinished(delegate: @escaping ((_ period: String, _ specialOffer: String) -> Void)) {
+    self.editFinishedDelegate = delegate
   }
   
   override func didReceiveMemoryWarning() {
@@ -49,7 +54,7 @@ class PosterAttributesEditorViewController
   }
   
   @IBAction func OnNextBtn(_ sender: Any) {
-    print("OnNextButton")
+    self.editFinishedDelegate(self.periodTextField.text!, self.specialOfferTextView.text!)
     self.dismiss(animated: true, completion: nil)
   }
 }

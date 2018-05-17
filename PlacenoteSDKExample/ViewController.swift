@@ -515,13 +515,15 @@ class ViewController
 
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-    shapeManager.spawnPlaneShape(position: self.pose, image: chosenImage)
     
     dismiss(animated: false, completion: {
       if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PosterAttributesEditorViewController") {
         viewController.modalPresentationStyle = .overFullScreen
-        self.present(viewController, animated: false, completion: {
-        })
+        let posterAttributesEditorViewController = viewController as! PosterAttributesEditorViewController
+        posterAttributesEditorViewController.doOnEditFinished { [weak self] (period: String, specialOffer: String) in
+          self?.shapeManager.spawnPlaneShape(position: self!.pose, image: chosenImage)
+        }
+        self.present(viewController, animated: false, completion: nil)
       }
     })
   }
