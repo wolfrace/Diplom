@@ -516,7 +516,14 @@ class ViewController
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
     shapeManager.spawnPlaneShape(position: self.pose, image: chosenImage)
-    dismiss(animated: true, completion: nil)
+    
+    dismiss(animated: false, completion: {
+      if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PosterAttributesEditorViewController") {
+        viewController.modalPresentationStyle = .overFullScreen
+        self.present(viewController, animated: false, completion: {
+        })
+      }
+    })
   }
   
   @objc func handleTap(sender: UITapGestureRecognizer) {
