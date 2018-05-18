@@ -521,7 +521,7 @@ class ViewController
         viewController.modalPresentationStyle = .overFullScreen
         let posterAttributesEditorViewController = viewController as! PosterAttributesEditorViewController
         posterAttributesEditorViewController.doOnEditFinished { [weak self] (period: String, specialOffer: String) in
-          self?.shapeManager.spawnPlaneShape(position: self!.pose, image: chosenImage)
+          self?.shapeManager.spawnPlaneShape(position: self!.pose, image: chosenImage, period: period, specialOffer: specialOffer)
         }
         self.present(viewController, animated: false, completion: nil)
       }

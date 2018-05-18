@@ -159,17 +159,17 @@ class ShapeManager {
   
   func clearShapes() { //delete all nodes and record of all shapes
     clearView()
-    for node in shapeNodes {
-      node.geometry!.firstMaterial!.normal.contents = nil
-      node.geometry!.firstMaterial!.diffuse.contents = nil
-    }
+//    for node in shapeNodes {
+//      node.geometry!.firstMaterial!.normal.contents = nil
+//      node.geometry!.firstMaterial!.diffuse.contents = nil
+//    }
     shapeNodes.removeAll()
     shapePositions.removeAll()
     shapeTypes.removeAll()
   }
   
-  func spawnPlaneShape(position: SCNVector3, image: UIImage) {
-    placePlaneShape(position: position, image: image)
+  func spawnPlaneShape(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+    placePlaneShape(position: position, image: image, period: period, specialOffer: specialOffer)
   }
   
   func spawnRandomShape(position: SCNVector3) {
@@ -214,12 +214,14 @@ class ShapeManager {
     return nextAttributesId
   }
   
-  func placePlaneShape (position: SCNVector3, image: UIImage) {
+  func placePlaneShape (position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
     var attributes: [String: String] = [:]
     
     let imageData:NSData = UIImagePNGRepresentation(image)! as NSData
     let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
     attributes["image"] = strBase64
+    attributes["period"] = period
+    attributes["specialOffer"] = specialOffer
     
     placeShape(position: position, type: ShapeType.Plane, attributes: attributes)
   }
@@ -238,8 +240,46 @@ class ShapeManager {
     scnScene.rootNode.addChildNode(geometryNode)
     shapesDrawn = true
   }
+  
+  func createPlaneShape(position: SCNVector3, attributes: [String: String]) -> SCNNode {
+    let imageBase64 = attributes["image"]!
+    let dataDecoded : Data = Data(base64Encoded: imageBase64, options: .ignoreUnknownCharacters)!
+    let image = UIImage(data: dataDecoded)!
+    let period = attributes["period"]!
+    let specialOffer = attributes["specialOffer"]!
     
+    let planeNode = SCNNode(geometry: ShapeType.createPlaneShape(image: image))
+    planeNode.position = position
+    
+    let periodNode = SCNNode(geometry: ShapeType.createPeriodTextShape(period: period))
+    periodNode.scale = SCNVector3Make(0.01, 0.01, 0.01)
+    var periodPosition = position
+    periodPosition.x += 0.75
+    periodPosition.y += 0.2
+    periodNode.position = periodPosition
+    
+    let specialOfferNode = SCNNode(geometry: ShapeType.createSpecialOfferTextShape(specialOffer: specialOffer))
+    specialOfferNode.scale = SCNVector3Make(0.01, 0.01, 0.01)
+    var specialOfferPosition = periodPosition
+    specialOfferPosition.y -= 1
+    specialOfferNode.position = specialOfferPosition
+    
+    
+    let posterNode = SCNNode()
+    posterNode.addChildNode(periodNode)
+    posterNode.addChildNode(specialOfferNode)
+    posterNode.addChildNode(planeNode)
+    
+    //posterNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
+    
+    return posterNode
+  }
+  
   func createShape (position: SCNVector3, type: ShapeType, attributes: [String: String]) -> SCNNode {
+    if (type == ShapeType.Plane) {
+      return createPlaneShape(position: position, attributes: attributes)
+    }
+    
     let geometry:SCNGeometry = createGeometry(type: type, attributes: attributes)
     
     let geometryNode = SCNNode(geometry: geometry)

@@ -40,6 +40,40 @@ public enum ShapeType:Int {
     return geometry
   }
   
+  static func createPeriodTextShape(period: String) -> SCNGeometry {
+    let text = SCNText(string: period, extrusionDepth: 0.02)
+    let font = UIFont(name: "Futura", size: 10)
+    text.font = font
+    text.alignmentMode = kCAAlignmentLeft
+    text.firstMaterial?.diffuse.contents = UIColor.yellow
+    text.firstMaterial?.specular.contents = UIColor.white
+    text.firstMaterial?.isDoubleSided = true
+    text.chamferRadius = 0.01
+    text.truncationMode = kCATruncationNone
+    text.isWrapped = true
+    
+    text.containerFrame = CGRect(origin: .zero, size: CGSize(width: 200, height: 20))
+    
+    return text
+  }
+  
+  static func createSpecialOfferTextShape(specialOffer: String) -> SCNGeometry {
+    let text = SCNText(string: specialOffer, extrusionDepth: 0.02)
+    let font = UIFont(name: "Futura", size: 15)
+    text.font = font
+    text.alignmentMode = kCAAlignmentLeft
+    text.firstMaterial?.diffuse.contents = UIColor.red
+    text.firstMaterial?.specular.contents = UIColor.white
+    text.firstMaterial?.isDoubleSided = true
+    text.chamferRadius = 0.01
+    text.truncationMode = kCATruncationNone
+    text.isWrapped = true
+    
+    text.containerFrame = CGRect(origin: .zero, size: CGSize(width: 200.0, height: 100))
+    
+    return text
+  }
+  
   static func generateGeometry(s_type:ShapeType) -> SCNGeometry {
     
     let geometry: SCNGeometry
