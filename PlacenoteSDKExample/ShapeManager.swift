@@ -197,6 +197,22 @@ class ShapeManager {
     return attributes
   }
   
+  func deleteAttributes(id: Int64) {
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Attributes")
+    request.predicate = NSPredicate(format: "objectId == %d", id)
+    
+    do {
+      let result = try! self.dbManager.fetch(request)
+      let resultData = result as! [Attributes]
+      for object in resultData {
+        self.dbManager.delete(object)
+      }
+      try self.dbManager.save()
+    } catch {
+      print("Failed")
+    }
+  }
+  
   func saveAttributes(attributes: [String: String]) -> Int64 {
     let nextAttributesId = getAutoIncremenet()
     let entity = NSEntityDescription.entity(forEntityName: "Attributes", in: self.dbManager)
@@ -248,24 +264,24 @@ class ShapeManager {
     let period = attributes["period"]!
     let specialOffer = attributes["specialOffer"]!
     
+    var relativePosition = SCNVector3Make(0, 0, 0)
     let planeNode = SCNNode(geometry: ShapeType.createPlaneShape(image: image))
-    planeNode.position = position
+    planeNode.position = relativePosition
     
     let periodNode = SCNNode(geometry: ShapeType.createPeriodTextShape(period: period))
     periodNode.scale = SCNVector3Make(0.01, 0.01, 0.01)
-    var periodPosition = position
-    periodPosition.x += 0.75
-    periodPosition.y += 0.2
-    periodNode.position = periodPosition
+    relativePosition.x += 0.75
+    relativePosition.y += 0.2
+    periodNode.position = relativePosition
     
     let specialOfferNode = SCNNode(geometry: ShapeType.createSpecialOfferTextShape(specialOffer: specialOffer))
     specialOfferNode.scale = SCNVector3Make(0.01, 0.01, 0.01)
-    var specialOfferPosition = periodPosition
-    specialOfferPosition.y -= 1
-    specialOfferNode.position = specialOfferPosition
+    relativePosition.y -= 1
+    specialOfferNode.position = relativePosition
     
     
     let posterNode = SCNNode()
+    posterNode.position = position
     posterNode.addChildNode(periodNode)
     posterNode.addChildNode(specialOfferNode)
     posterNode.addChildNode(planeNode)
@@ -304,4 +320,25 @@ class ShapeManager {
     }
   }
   
+  func deleteShape(node: SCNNode) {
+    var localNode = node
+    if (localNode.parent != nil) {
+      localNode = localNode.parent!
+    }
+    
+    if let index = shapeNodes.index(of: localNode) {
+      deleteShapeImpl(index: index)
+    }
+  }
+  
+  private func deleteShapeImpl(index: Int) {
+    let dbIndex = shapeAttributes[index]
+    deleteAttributes(id: dbIndex)
+    
+    shapeNodes[index].removeFromParentNode()
+    shapeNodes.remove(at: index)
+    shapeTypes.remove(at: index)
+    shapePositions.remove(at: index)
+    shapeAttributes.remove(at: index)
+  }
 }

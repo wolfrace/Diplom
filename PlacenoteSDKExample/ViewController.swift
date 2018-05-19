@@ -669,6 +669,13 @@ class ViewController
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     lastLocation = locations.last
   }
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    let touch = touches.first!
+    if let hit = scnView.hitTest(touch.location(in: scnView), options: nil).first {
+      shapeManager.deleteShape(node: hit.node)
+    }
+  }
 }
 
 
