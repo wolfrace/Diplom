@@ -286,6 +286,13 @@ class ShapeManager {
     posterNode.addChildNode(specialOfferNode)
     posterNode.addChildNode(planeNode)
     
+    var pov = (scnView.pointOfView?.position)!
+    pov.y = position.y
+    pov.z = 2 * position.z - pov.z
+    pov.x = 2 * position.x - pov.x
+    
+    posterNode.look(at: pov)
+    
     //posterNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
     
     return posterNode
