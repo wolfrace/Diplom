@@ -239,6 +239,13 @@ class ShapeManager {
     attributes["period"] = period
     attributes["specialOffer"] = specialOffer
     
+    var pov = (scnView.pointOfView?.position)!
+    pov.y = position.y
+    pov.z = 2 * position.z - pov.z
+    pov.x = 2 * position.x - pov.x
+    attributes["lookAt.x"] = String(pov.x)
+    attributes["lookAt.z"] = String(pov.z)
+    
     placeShape(position: position, type: ShapeType.Plane, attributes: attributes)
   }
   
@@ -263,6 +270,7 @@ class ShapeManager {
     let image = UIImage(data: dataDecoded)!
     let period = attributes["period"]!
     let specialOffer = attributes["specialOffer"]!
+    let pov = SCNVector3Make(Float(attributes["lookAt.x"]!)!, position.y, Float(attributes["lookAt.z"]!)!)
     
     var relativePosition = SCNVector3Make(0, 0, 0)
     let planeNode = SCNNode(geometry: ShapeType.createPlaneShape(image: image))
@@ -279,19 +287,12 @@ class ShapeManager {
     relativePosition.y -= 1
     specialOfferNode.position = relativePosition
     
-    
     let posterNode = SCNNode()
     posterNode.position = position
+    posterNode.look(at: pov)
     posterNode.addChildNode(periodNode)
     posterNode.addChildNode(specialOfferNode)
     posterNode.addChildNode(planeNode)
-    
-    var pov = (scnView.pointOfView?.position)!
-    pov.y = position.y
-    pov.z = 2 * position.z - pov.z
-    pov.x = 2 * position.x - pov.x
-    
-    posterNode.look(at: pov)
     
     //posterNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
     
@@ -307,7 +308,6 @@ class ShapeManager {
     
     let geometryNode = SCNNode(geometry: geometry)
     geometryNode.position = position
-    //geometryNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
     
     return geometryNode
   }
