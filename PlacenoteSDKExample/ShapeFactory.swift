@@ -24,6 +24,21 @@ class ShapeFactory {
     return geometryNode
   }
   
+  func updateShape(node: SCNNode, type: ShapeType, attributes: [String: String]) {
+    switch type {
+    case ShapeType.Plane:
+      if let periodNode = node.childNodes[0].geometry as? SCNText {
+        periodNode.string = attributes["period"]
+      }
+      
+      if let specialOfferNode = node.childNodes[1].geometry as? SCNText {
+        specialOfferNode.string = attributes["specialOffer"]
+      }
+    default: break
+      // not implemented
+    }
+  }
+  
   func createPlaneShape(position: SCNVector3, attributes: [String: String]) -> SCNNode {
     let imageBase64 = attributes["image"]!
     let dataDecoded : Data = Data(base64Encoded: imageBase64, options: .ignoreUnknownCharacters)!
@@ -54,7 +69,7 @@ class ShapeFactory {
     posterNode.addChildNode(specialOfferNode)
     posterNode.addChildNode(planeNode)
     
-    posterNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
+    //posterNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
     
     return posterNode
   }

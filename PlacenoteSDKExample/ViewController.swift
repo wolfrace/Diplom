@@ -676,14 +676,19 @@ class ViewController
       if let shape = shapeManager.findShape(node: hit.node) {
         let alert = UIAlertController(title: "Choose action", message: nil, preferredStyle: .actionSheet)
         let editAction = UIAlertAction(title: "Edit", style: .default) { [weak self] action in
-          let attributes = self?.shapeManager.getShapeAttributes(node: shape)
+          var attributes = self?.shapeManager.getShapeAttributes(node: shape)!
           
-//          let imagePicker = UIImagePickerController()
-//          imagePicker.delegate = self
-//          imagePicker.allowsEditing = false
-//          imagePicker.sourceType = .savedPhotosAlbum
-//          self?.pose = pose.position()
-//          self?.present(imagePicker, animated:true, completion: nil)
+          if let viewController = self?.storyboard?.instantiateViewController(withIdentifier: "PosterAttributesEditorViewController") {
+            viewController.modalPresentationStyle = .overFullScreen
+            let posterAttributesEditorViewController = viewController as! PosterAttributesEditorViewController
+            posterAttributesEditorViewController.initData(period: attributes!["period"]!, specialOffer: attributes!["specialOffer"]!)
+            posterAttributesEditorViewController.doOnEditFinished { [weak self] (period: String, specialOffer: String) in
+              attributes!["period"] = period
+              attributes!["specialOffer"] = specialOffer
+              self?.shapeManager.updateShapeAttributes(node: shape, attributes: attributes!)
+            }
+            self?.present(viewController, animated: false, completion: nil)
+          }
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .default) { [weak self] action in
           self?.shapeManager.deleteShape(node: shape)

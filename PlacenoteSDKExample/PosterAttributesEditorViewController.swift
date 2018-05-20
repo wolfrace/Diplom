@@ -19,8 +19,24 @@ class PosterAttributesEditorViewController
   @IBOutlet weak var nextBtn: UIButton!
   var editFinishedDelegate: ((_ period: String, _ specialOffer: String) -> Void)!
   
+  private var initialPeriod: String? = nil
+  private var initialSpecialOffer: String? = nil
+  
+  func initData(period: String, specialOffer: String) {
+    initialPeriod = period
+    initialSpecialOffer = specialOffer
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    if (initialPeriod != nil) {
+      periodTextField.text = initialPeriod!
+    }
+    
+    if (initialSpecialOffer != nil) {
+      specialOfferTextView.text = initialSpecialOffer!
+    }
     
     self.specialOfferTextView.layer.borderColor = UIColor.black.cgColor
     self.specialOfferTextView.layer.borderWidth = 1

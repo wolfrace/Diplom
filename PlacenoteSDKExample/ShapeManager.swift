@@ -137,6 +137,7 @@ class ShapeManager {
     shapeNodes.removeAll()
     shapePositions.removeAll()
     shapeTypes.removeAll()
+    shapeAttributes.removeAll()
   }
   
   func spawnPlaneShape(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
@@ -198,14 +199,15 @@ class ShapeManager {
   
   func getShapeAttributes(node: SCNNode) -> [String: String]? {
     if let index = shapeNodes.index(of: node) {
-      return dbManager.getAttributes(id: Int64(index))
+      return dbManager.getAttributes(id: shapeAttributes[index])
     }
     return nil
   }
   
   func updateShapeAttributes(node: SCNNode, attributes: [String: String]) {
     if let index = shapeNodes.index(of: node) {
-      dbManager.updateAttributes(id: Int64(index), attributes: attributes)
+      dbManager.updateAttributes(id: shapeAttributes[index], attributes: attributes)
+      shapeFactory.updateShape(node: node, type: shapeTypes[index], attributes: attributes)
     }
   }
   
