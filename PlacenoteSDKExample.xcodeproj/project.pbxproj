@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7FBF965C5C3B1E5C0F8DE1AB /* Pods_PlacenoteSDKExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC572E55F179D977C01BA451 /* Pods_PlacenoteSDKExample.framework */; };
 		844C781120B1864900648B7D /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844C781020B1864900648B7D /* DatabaseManager.swift */; };
+		844C781320B1888200648B7D /* ShapeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844C781220B1888200648B7D /* ShapeFactory.swift */; };
 		844DB93A20ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844DB93920ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift */; };
 		848D0B2420ACAED80087A743 /* Database.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 848D0B2220ACAED80087A743 /* Database.xcdatamodeld */; };
 		A28C7963202A46F40052F3FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C7962202A46F40052F3FB /* AppDelegate.swift */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		2904538A54D1EA278D335F50 /* Pods-PlacenoteSDKExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacenoteSDKExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlacenoteSDKExample/Pods-PlacenoteSDKExample.release.xcconfig"; sourceTree = "<group>"; };
 		844C781020B1864900648B7D /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		844C781220B1888200648B7D /* ShapeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeFactory.swift; sourceTree = "<group>"; };
 		844DB93920ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterAttributesEditorViewController.swift; sourceTree = "<group>"; };
 		848D0B2320ACAED80087A743 /* Attributes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Attributes.xcdatamodel; sourceTree = "<group>"; };
 		8D2EF9CBDC0F285A1BE9E787 /* Pods-PlacenoteSDKExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacenoteSDKExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlacenoteSDKExample/Pods-PlacenoteSDKExample.debug.xcconfig"; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				848D0B2220ACAED80087A743 /* Database.xcdatamodeld */,
 				844DB93920ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift */,
 				844C781020B1864900648B7D /* DatabaseManager.swift */,
+				844C781220B1888200648B7D /* ShapeFactory.swift */,
 			);
 			path = PlacenoteSDKExample;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 				A28C7993202A48190052F3FB /* ShapeManager.swift in Sources */,
 				A28C7992202A48190052F3FB /* ShapeType.swift in Sources */,
 				A28C7963202A46F40052F3FB /* AppDelegate.swift in Sources */,
+				844C781320B1888200648B7D /* ShapeFactory.swift in Sources */,
 				844C781120B1864900648B7D /* DatabaseManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
