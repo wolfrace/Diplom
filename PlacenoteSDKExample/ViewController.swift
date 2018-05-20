@@ -673,7 +673,30 @@ class ViewController
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     let touch = touches.first!
     if let hit = scnView.hitTest(touch.location(in: scnView), options: nil).first {
-      shapeManager.deleteShape(node: hit.node)
+      if let shape = shapeManager.findShape(node: hit.node) {
+        let alert = UIAlertController(title: "Choose action", message: nil, preferredStyle: .actionSheet)
+        let editAction = UIAlertAction(title: "Edit", style: .default) { [weak self] action in
+          let attributes = self?.shapeManager.getShapeAttributes(node: shape)
+          
+//          let imagePicker = UIImagePickerController()
+//          imagePicker.delegate = self
+//          imagePicker.allowsEditing = false
+//          imagePicker.sourceType = .savedPhotosAlbum
+//          self?.pose = pose.position()
+//          self?.present(imagePicker, animated:true, completion: nil)
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: .default) { [weak self] action in
+          self?.shapeManager.deleteShape(node: shape)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { [] action in
+          // do nothing
+        }
+        alert.addAction(editAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
+      }
     }
   }
 }

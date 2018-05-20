@@ -45,24 +45,12 @@ func generateRandomColor() -> UIColor {
   return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
 }
 
-func jsonToDictionary(from text: String) -> [String: String] {
-  guard let data = text.data(using: .utf8) else { return [:] }
-  let anyResult: Any? = try? JSONSerialization.jsonObject(with: data, options: [])
-  return anyResult as? [String: String] ?? [:]
-}
-
-func dictionaryToJson(from dictionary: [String: String]) -> String {
-  let jsonData = try? JSONSerialization.data(withJSONObject: dictionary, options: [])
-  let jsonString = String(data: jsonData!, encoding: .utf8)
-  return jsonString!
-}
-
 //Class to manage a list of shapes to be view in Augmented Reality including spawning, managing a list and saving/retrieving from persistent memory using JSON
 class ShapeManager {
   
   private var scnScene: SCNScene!
   private var scnView: SCNView!
-  private var dbManager: NSManagedObjectContext!
+  private var dbManager: DatabaseManager!
   
   private var shapePositions: [SCNVector3] = []
   private var shapeTypes: [ShapeType] = []
@@ -70,30 +58,11 @@ class ShapeManager {
   private var shapeAttributes: [Int64] = []
   
   public var shapesDrawn: Bool! = false
-
   
   init(scene: SCNScene, view: SCNView, dbObjectContext: NSManagedObjectContext) {
     scnScene = scene
     scnView = view
-    dbManager = dbObjectContext
-  }
-  
-  func getAutoIncremenet() -> Int64   {
-    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Attributes")
-    let sortDescriptor = NSSortDescriptor(key: "objectId", ascending: true, selector: #selector(NSString.compare(_:)))
-    fetchRequest.sortDescriptors = [sortDescriptor]
-    
-    var newID:Int64 = 0
-    do {
-      let result = try self.dbManager.fetch(fetchRequest).last
-      if result != nil {
-        newID = ((result! as AnyObject).value(forKey: "objectId") as! Int64) + 1
-      }
-    } catch let error as NSError {
-      NSLog("Unresolved error \(error)")
-    }
-    
-    return newID
+    dbManager = DatabaseManager(dbObjectContext: dbObjectContext)
   }
   
   func getShapeArray() -> [[String: [String: String]]] {
@@ -128,7 +97,7 @@ class ShapeManager {
       let position: SCNVector3 = SCNVector3(x: Float(x_string)!, y: Float(y_string)!, z: Float(z_string)!)
       let attributesId: Int64 = Int64(item["shape"]!["attributes"]!)!
       let type: ShapeType = ShapeType(rawValue: Int(item["shape"]!["style"]!)!)!
-      let attributes = getAttributes(id: attributesId)
+      let attributes = dbManager.getAttributes(id: attributesId)
       
       shapePositions.append(position)
       shapeTypes.append(type)
@@ -178,58 +147,6 @@ class ShapeManager {
     placeShape(position: position, type: shapeType, attributes: [:])
   }
   
-  func getAttributes(id: Int64) -> [String: String] {
-    var attributes: [String: String] = [:]
-    
-    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Attributes")
-    request.predicate = NSPredicate(format: "objectId == %d", id)
-    request.returnsObjectsAsFaults = false
-    
-    do {
-      let result = try self.dbManager.fetch(request)
-      for data in result as! [NSManagedObject] {
-        attributes = jsonToDictionary(from: (data.value(forKey: "data") as! String))
-      }
-    } catch {
-      print("Failed")
-    }
-    
-    return attributes
-  }
-  
-  func deleteAttributes(id: Int64) {
-    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Attributes")
-    request.predicate = NSPredicate(format: "objectId == %d", id)
-    
-    do {
-      let result = try! self.dbManager.fetch(request)
-      let resultData = result as! [Attributes]
-      for object in resultData {
-        self.dbManager.delete(object)
-      }
-      try self.dbManager.save()
-    } catch {
-      print("Failed")
-    }
-  }
-  
-  func saveAttributes(attributes: [String: String]) -> Int64 {
-    let nextAttributesId = getAutoIncremenet()
-    let entity = NSEntityDescription.entity(forEntityName: "Attributes", in: self.dbManager)
-    let newAttributes = NSManagedObject(entity: entity!, insertInto: self.dbManager)
-    
-    newAttributes.setValue(nextAttributesId, forKey: "objectId")
-    newAttributes.setValue(dictionaryToJson(from: attributes), forKey: "data")
-    
-    do {
-      try self.dbManager.save()
-    } catch {
-      print("Failed saving")
-    }
-    
-    return nextAttributesId
-  }
-  
   func placePlaneShape (position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
     var attributes: [String: String] = [:]
     
@@ -257,7 +174,7 @@ class ShapeManager {
     shapeTypes.append(type)
     shapeNodes.append(geometryNode)
     
-    let attributesId = saveAttributes(attributes: attributes)
+    let attributesId = dbManager.saveAttributes(attributes: attributes)
     shapeAttributes.append(attributesId)
     
     scnScene.rootNode.addChildNode(geometryNode)
@@ -294,7 +211,7 @@ class ShapeManager {
     posterNode.addChildNode(specialOfferNode)
     posterNode.addChildNode(planeNode)
     
-    //posterNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
+    posterNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
     
     return posterNode
   }
@@ -327,25 +244,42 @@ class ShapeManager {
     }
   }
   
-  func deleteShape(node: SCNNode) {
+  func findShape(node: SCNNode) -> SCNNode? {
     var localNode = node
     if (localNode.parent != nil) {
       localNode = localNode.parent!
     }
     
-    if let index = shapeNodes.index(of: localNode) {
-      deleteShapeImpl(index: index)
+    if shapeNodes.index(of: localNode) != nil {
+      return localNode
+    }
+    
+    return nil
+  }
+  
+  func getShapeAttributes(node: SCNNode) -> [String: String]? {
+    if let index = shapeNodes.index(of: node) {
+      return dbManager.getAttributes(id: Int64(index))
+    }
+    return nil
+  }
+  
+  func updateShapeAttributes(node: SCNNode, attributes: [String: String]) {
+    if let index = shapeNodes.index(of: node) {
+      dbManager.updateAttributes(id: Int64(index), attributes: attributes)
     }
   }
   
-  private func deleteShapeImpl(index: Int) {
-    let dbIndex = shapeAttributes[index]
-    deleteAttributes(id: dbIndex)
-    
-    shapeNodes[index].removeFromParentNode()
-    shapeNodes.remove(at: index)
-    shapeTypes.remove(at: index)
-    shapePositions.remove(at: index)
-    shapeAttributes.remove(at: index)
+  func deleteShape(node: SCNNode) {
+    if let index = shapeNodes.index(of: node) {
+      let dbIndex = shapeAttributes[index]
+      dbManager.deleteAttributes(id: dbIndex)
+      
+      shapeNodes[index].removeFromParentNode()
+      shapeNodes.remove(at: index)
+      shapeTypes.remove(at: index)
+      shapePositions.remove(at: index)
+      shapeAttributes.remove(at: index)
+    }
   }
 }
