@@ -140,14 +140,24 @@ class ShapeManager {
     shapeAttributes.removeAll()
   }
   
-  func spawnPlaneShape(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+  func spawnPlane(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
     placePlaneShape(position: position, image: image, period: period, specialOffer: specialOffer)
   }
   
-  func spawnRandomShape(position: SCNVector3) {
-    
-    let shapeType: ShapeType = ShapeType.random()
-    placeShape(position: position, type: shapeType, attributes: [:])
+  func spawnInformationTable(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+    placePlaneShape(position: position, image: image, period: period, specialOffer: specialOffer)
+  }
+  
+  func spawnPoster(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+    placePlaneShape(position: position, image: image, period: period, specialOffer: specialOffer)
+  }
+  
+  func spawnTag(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+    placePlaneShape(position: position, image: image, period: period, specialOffer: specialOffer)
+  }
+  
+  func spawnLateralFootnote(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+    placePlaneShape(position: position, image: image, period: period, specialOffer: specialOffer)
   }
   
   func placePlaneShape (position: SCNVector3, image: UIImage, period: String, specialOffer: String) {

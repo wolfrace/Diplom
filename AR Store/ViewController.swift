@@ -67,6 +67,7 @@ class ViewController
   private var lastLocation: CLLocation? = nil
 
   private var pose: SCNVector3!
+  private var shapeType: ShapeType!
   
   //Setup view once loaded
   override func viewDidLoad() {
@@ -517,15 +518,79 @@ class ViewController
     let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
     
     dismiss(animated: false, completion: {
-      if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PosterAttributesEditorViewController") {
-        viewController.modalPresentationStyle = .overFullScreen
-        let posterAttributesEditorViewController = viewController as! PosterAttributesEditorViewController
-        posterAttributesEditorViewController.doOnEditFinished { [weak self] (period: String, specialOffer: String) in
-          self?.shapeManager.spawnPlaneShape(position: self!.pose, image: chosenImage, period: period, specialOffer: specialOffer)
-        }
-        self.present(viewController, animated: false, completion: nil)
+      switch self.shapeType! {
+      case ShapeType.Plane:
+        self.fillPlaneAttributes(image: chosenImage)
+        //
+      case ShapeType.InformationTable:
+        self.fillInformationTableAttributes(image: chosenImage)
+        //
+      case ShapeType.Poster:
+        self.fillPosterAttributes(image: chosenImage)
+        //
+      case ShapeType.Tag:
+        self.fillTagAttributes(image: chosenImage)
+        //
+      case ShapeType.LateralFootnote:
+        self.fillLateralFootnoteAttributes(image: chosenImage)
+        //
       }
     })
+  }
+  
+  private func fillPlaneAttributes(image: UIImage) {
+    if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PosterAttributesEditorViewController") {
+      viewController.modalPresentationStyle = .overFullScreen
+      let posterAttributesEditorViewController = viewController as! PosterAttributesEditorViewController
+      posterAttributesEditorViewController.doOnEditFinished { [weak self] (period: String, specialOffer: String) in
+        self?.shapeManager.spawnPlane(position: self!.pose, image: image, period: period, specialOffer: specialOffer)
+      }
+      self.present(viewController, animated: false, completion: nil)
+    }
+  }
+  
+  private func fillInformationTableAttributes(image: UIImage) {
+    if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PosterAttributesEditorViewController") {
+      viewController.modalPresentationStyle = .overFullScreen
+      let posterAttributesEditorViewController = viewController as! PosterAttributesEditorViewController
+      posterAttributesEditorViewController.doOnEditFinished { [weak self] (period: String, specialOffer: String) in
+        self?.shapeManager.spawnInformationTable(position: self!.pose, image: image, period: period, specialOffer: specialOffer)
+      }
+      self.present(viewController, animated: false, completion: nil)
+    }
+  }
+  
+  private func fillPosterAttributes(image: UIImage) {
+    if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PosterAttributesEditorViewController") {
+      viewController.modalPresentationStyle = .overFullScreen
+      let posterAttributesEditorViewController = viewController as! PosterAttributesEditorViewController
+      posterAttributesEditorViewController.doOnEditFinished { [weak self] (period: String, specialOffer: String) in
+        self?.shapeManager.spawnPoster(position: self!.pose, image: image, period: period, specialOffer: specialOffer)
+      }
+      self.present(viewController, animated: false, completion: nil)
+    }
+  }
+  
+  private func fillTagAttributes(image: UIImage) {
+    if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PosterAttributesEditorViewController") {
+      viewController.modalPresentationStyle = .overFullScreen
+      let posterAttributesEditorViewController = viewController as! PosterAttributesEditorViewController
+      posterAttributesEditorViewController.doOnEditFinished { [weak self] (period: String, specialOffer: String) in
+        self?.shapeManager.spawnTag(position: self!.pose, image: image, period: period, specialOffer: specialOffer)
+      }
+      self.present(viewController, animated: false, completion: nil)
+    }
+  }
+  
+  private func fillLateralFootnoteAttributes(image: UIImage) {
+    if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "PosterAttributesEditorViewController") {
+      viewController.modalPresentationStyle = .overFullScreen
+      let posterAttributesEditorViewController = viewController as! PosterAttributesEditorViewController
+      posterAttributesEditorViewController.doOnEditFinished { [weak self] (period: String, specialOffer: String) in
+        self?.shapeManager.spawnLateralFootnote(position: self!.pose, image: image, period: period, specialOffer: specialOffer)
+      }
+      self.present(viewController, animated: false, completion: nil)
+    }
   }
   
   @objc func handleTap(sender: UITapGestureRecognizer) {
@@ -541,16 +606,53 @@ class ViewController
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .savedPhotosAlbum
         self?.pose = pose.position()
+        self?.shapeType = ShapeType.Plane
         self?.present(imagePicker, animated:true, completion: nil)
       }
-      let addRandomAction = UIAlertAction(title: "Random", style: .default) { [weak self] action in
-       self?.shapeManager.spawnRandomShape(position: pose.position())
+      let addInformationTableAction = UIAlertAction(title: "Information Table", style: .default) { [weak self] action in
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .savedPhotosAlbum
+        self?.pose = pose.position()
+        self?.shapeType = ShapeType.InformationTable
+        self?.present(imagePicker, animated:true, completion: nil)
+      }
+      let addPosterAction = UIAlertAction(title: "Poster", style: .default) { [weak self] action in
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .savedPhotosAlbum
+        self?.pose = pose.position()
+        self?.shapeType = ShapeType.Poster
+        self?.present(imagePicker, animated:true, completion: nil)
+      }
+      let addTagAction = UIAlertAction(title: "Tag", style: .default) { [weak self] action in
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .savedPhotosAlbum
+        self?.pose = pose.position()
+        self?.shapeType = ShapeType.Tag
+        self?.present(imagePicker, animated:true, completion: nil)
+      }
+      let addLateralFootnoteAction = UIAlertAction(title: "Lateral Footnote", style: .default) { [weak self] action in
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .savedPhotosAlbum
+        self?.pose = pose.position()
+        self?.shapeType = ShapeType.LateralFootnote
+        self?.present(imagePicker, animated:true, completion: nil)
       }
       let addCancelAction = UIAlertAction(title: "Cancel", style: .default) { [] action in
         // do nothing
       }
       alert.addAction(addPlaneAction)
-      alert.addAction(addRandomAction)
+      alert.addAction(addInformationTableAction)
+      alert.addAction(addPosterAction)
+      alert.addAction(addTagAction)
+      alert.addAction(addLateralFootnoteAction)
       alert.addAction(addCancelAction)
       
       self.present(alert, animated: true, completion: nil)

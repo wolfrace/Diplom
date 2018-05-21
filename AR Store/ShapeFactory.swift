@@ -69,23 +69,27 @@ class ShapeFactory {
     posterNode.addChildNode(specialOfferNode)
     posterNode.addChildNode(planeNode)
     
-    //posterNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
+    posterNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
     
     return posterNode
   }
   
   private func createGeometry(type: ShapeType, attributes: [String: String]) -> SCNGeometry {
+    let imageBase64 = attributes["image"]!
+    let dataDecoded : Data = Data(base64Encoded: imageBase64, options: .ignoreUnknownCharacters)!
+    let image = UIImage(data: dataDecoded)!
+    
     switch type {
     case ShapeType.Plane:
-      let imageBase64 = attributes["image"]!
-      let dataDecoded : Data = Data(base64Encoded: imageBase64, options: .ignoreUnknownCharacters)!
-      let image = UIImage(data: dataDecoded)!
       return ShapeType.createPlaneShape(image: image)
-    default:
-      let geometry = ShapeType.generateGeometry(s_type: type)
-      let color = generateRandomColor()
-      geometry.materials.first?.diffuse.contents = color
-      return geometry
+    case ShapeType.InformationTable:
+      return ShapeType.createInformationTableShape(image: image)
+    case ShapeType.Poster:
+      return ShapeType.createPosterShape(image: image)
+    case ShapeType.Tag:
+      return ShapeType.createTagShape(image: image)
+    case ShapeType.LateralFootnote:
+      return ShapeType.createLateralFootnoteShape(image: image)
     }
   }
   
