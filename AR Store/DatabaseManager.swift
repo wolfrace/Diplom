@@ -11,9 +11,11 @@ import CoreData
 
 class DatabaseManager {
   private var context: NSManagedObjectContext!
+  private var dropboxController: DropboxController = DropboxController()
   
   init(dbObjectContext: NSManagedObjectContext) {
     context = dbObjectContext
+    //dropboxController.uploadData(data: "Hello, Dropbox!".data(using: .utf8, allowLossyConversion: false)!)
   }
   
   func getAttributes(id: Int64) -> [String: String] {

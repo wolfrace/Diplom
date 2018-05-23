@@ -1,12 +1,24 @@
 PODS:
-  - PlacenoteSDK (1.4.1)
+  - Alamofire (4.5.1)
+  - PlacenoteSDK (1.5.0)
+  - SwiftyDropbox (4.5.0):
+    - Alamofire (~> 4.5.0)
 
 DEPENDENCIES:
   - PlacenoteSDK
+  - SwiftyDropbox
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - PlacenoteSDK
+    - SwiftyDropbox
 
 SPEC CHECKSUMS:
-  PlacenoteSDK: 50182b0aac4a9dc460da98eaacc304ba779f25ea
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  PlacenoteSDK: e3b34977e3504d139eb68f9b5eaec2a97d3a03c1
+  SwiftyDropbox: ccdbd21dc81d59363b75241bf7c88fb906e8ffcb
 
-PODFILE CHECKSUM: da40cb9f880c21da8adc255335032f9639aaa4e7
+PODFILE CHECKSUM: 01f593e957008a9570dd558e0fd59e879ac053af
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.2

@@ -133,9 +133,6 @@ class ViewController
     scnView.isPlaying = true
     scnView.debugOptions = []
     mapTable.isHidden = true //hide the map list until 'Load Map' is clicked
-
-    //scnView.debugOptions = ARSCNDebugOptions.showFeaturePoints
-    //scnView.debugOptions = ARSCNDebugOptions.showWorldOrigin
   }
 
   //Function to setup AR Scene
@@ -155,12 +152,10 @@ class ViewController
     scnView.frame = view.bounds
   }
 
-
   // MARK: - PNDelegate functions
 
   //Receive a pose update when a new pose is calculated
   func onPose(_ outputPose: matrix_float4x4, _ arkitPose: matrix_float4x4) -> Void {
-
   }
 
   //Receive a status update when the status changes
@@ -189,7 +184,6 @@ class ViewController
         statusLabel.text = "Moved too fast. Map Lost"
       }
       tapRecognizer?.isEnabled = false
-
     }
 
   }
@@ -224,7 +218,6 @@ class ViewController
       mappingStarted = true
       
       LibPlacenote.instance.stopSession()
-      
       LibPlacenote.instance.startSession()
       
       if (reportDebug) {
@@ -255,50 +248,13 @@ class ViewController
       statusLabel.text = "Saving Map"
       mappingStarted = false
       mappingComplete = true
-      LibPlacenote.instance.saveMap(
-        savedCb: {(mapId: String?) -> Void in
-          if (mapId != nil) {
-            self.statusLabel.text = "Saved Id: " + mapId! //update UI
-            LibPlacenote.instance.stopSession()
-
-            var metadata: [String: Any] = [:]
-            if (self.lastLocation != nil) {
-                metadata["location"] = ["latitude": self.lastLocation!.coordinate.latitude,
-                                        "longitude": self.lastLocation!.coordinate.longitude,
-                                        "altitude": self.lastLocation!.altitude]
-            }
-            metadata["shapeArray"] = self.shapeManager.getShapeArray()
-
-            let jsonData = try? JSONSerialization.data(withJSONObject: metadata)
-            let jsonString = String.init(data: jsonData!, encoding: String.Encoding.utf8)
-            if (!LibPlacenote.instance.setMapMetadata(mapId: mapId!, metadataJson: jsonString!)) {
-                print ("Failed to set map metadata")
-            }
-            self.planeDetection = false
-            self.configureSession()
-          } else {
-            NSLog("Failed to save map")
-          }
-      },
-        uploadProgressCb: {(completed: Bool, faulted: Bool, percentage: Float) -> Void in
-          if (completed) {
-            print ("Uploaded!")
-            self.fileTransferLabel.text = ""
-          } else if (faulted) {
-            print ("Couldnt upload map")
-          } else {
-            print ("Progress: " + percentage.description)
-            self.fileTransferLabel.text = "Map Upload: " + String(format: "%.3f", percentage) + "/1.0"
-          }
-      }
-      )
+      saveMap()
       newMapButton.setTitle("New Map", for: .normal)
       tapRecognizer?.isEnabled = false
     }
   }
-
+  
   @IBAction func pickMap(_ sender: Any) {
-    
     if (localizationStarted) { // currently a map is loaded. StopSession and clearView
       shapeManager.clearShapes()
       ptViz?.reset()
@@ -399,58 +355,14 @@ class ViewController
 
     return cell!
   }
-
+  
   //Map selected
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     print(String(format: "Retrieving row: %d", indexPath.row))
     print("Retrieving mapId: " + maps[indexPath.row].0)
     statusLabel.text = "Retrieving mapId: " + maps[indexPath.row].0
 
-    LibPlacenote.instance.loadMap(mapId: maps[indexPath.row].0,
-      downloadProgressCb: {(completed: Bool, faulted: Bool, percentage: Float) -> Void in
-        if (completed) {
-          self.mappingStarted = false
-          self.mappingComplete = false
-          self.localizationStarted = true
-          self.mapTable.isHidden = true
-          self.pickMapButton.setTitle("Stop/Clear", for: .normal)
-          self.newMapButton.isEnabled = true
-          
-          if (self.shapeManager.loadShapeArray(shapeArray: self.maps[indexPath.row].1?["shapeArray"] as? [[String: [String: String]]])) {
-            self.statusLabel.text = "Map Loaded. Look Around"
-          }
-          else {
-            self.statusLabel.text = "Map Loaded. Shape file not found"
-          }
-          LibPlacenote.instance.startSession()
-          
-          
-          
-          if (self.reportDebug) {
-            LibPlacenote.instance.startReportRecord (uploadProgressCb: ({(completed: Bool, faulted: Bool, percentage: Float) -> Void in
-              if (completed) {
-                self.statusLabel.text = "Dataset Upload Complete"
-                self.fileTransferLabel.text = ""
-              } else if (faulted) {
-                self.statusLabel.text = "Dataset Upload Faulted"
-                self.fileTransferLabel.text = ""
-              } else {
-                self.fileTransferLabel.text = "Dataset Upload: " + String(format: "%.3f", percentage) + "/1.0"
-              }
-            })
-            )
-            print ("Started Debug Report")
-          }
-          
-          self.tapRecognizer?.isEnabled = true
-        } else if (faulted) {
-          print ("Couldnt load map: " + self.maps[indexPath.row].0)
-          self.statusLabel.text = "Load error Map Id: " +  self.maps[indexPath.row].0
-        } else {
-          print ("Progress: " + percentage.description)
-        }
-      }
-    )
+    loadMap(mapId: maps[indexPath.row].0, data: maps[indexPath.row].1)
   }
 
   //Make rows editable for deletion
@@ -472,7 +384,6 @@ class ViewController
         else {
           print ("Can't Delete: " + self.maps[indexPath.row].0)
           self.statusLabel.text = "Can't Delete: " + self.maps[indexPath.row].0
-
         }
       })
     }
@@ -774,7 +685,94 @@ class ViewController
       }
     }
   }
+  
+  ////////////////////////////////////////
+  
+  func saveMap() {
+    LibPlacenote.instance.saveMap(
+      savedCb: {(mapId: String?) -> Void in
+        if (mapId != nil) {
+          self.statusLabel.text = "Saved Id: " + mapId! //update UI
+          LibPlacenote.instance.stopSession()
+          
+          var metadata: [String: Any] = [:]
+          if (self.lastLocation != nil) {
+            metadata["location"] = ["latitude": self.lastLocation!.coordinate.latitude,
+                                    "longitude": self.lastLocation!.coordinate.longitude,
+                                    "altitude": self.lastLocation!.altitude]
+          }
+          metadata["shapeArray"] = self.shapeManager.getShapeArray()
+          
+          let jsonData = try? JSONSerialization.data(withJSONObject: metadata)
+          let jsonString = String.init(data: jsonData!, encoding: String.Encoding.utf8)
+          if (!LibPlacenote.instance.setMapMetadata(mapId: mapId!, metadataJson: jsonString!)) {
+            print ("Failed to set map metadata")
+          }
+          self.planeDetection = false
+          self.configureSession()
+        } else {
+          NSLog("Failed to save map")
+        }
+    },
+      uploadProgressCb: {(completed: Bool, faulted: Bool, percentage: Float) -> Void in
+        if (completed) {
+          print ("Uploaded!")
+          self.fileTransferLabel.text = ""
+        } else if (faulted) {
+          print ("Couldnt upload map")
+        } else {
+          print ("Progress: " + percentage.description)
+          self.fileTransferLabel.text = "Map Upload: " + String(format: "%.3f", percentage) + "/1.0"
+        }
+    }
+    )
+  }
+  
+  func loadMap(mapId: String, data: [String: Any]?) {
+    LibPlacenote.instance.loadMap(mapId: mapId,
+      downloadProgressCb: {(completed: Bool, faulted: Bool, percentage: Float) -> Void in
+        if (completed) {
+          self.mappingStarted = false
+          self.mappingComplete = false
+          self.localizationStarted = true
+          self.mapTable.isHidden = true
+          self.pickMapButton.setTitle("Stop/Clear", for: .normal)
+          self.newMapButton.isEnabled = true
+          
+          if (self.shapeManager.loadShapeArray(shapeArray: data?["shapeArray"] as? [[String: [String: String]]])) {
+            self.statusLabel.text = "Map Loaded. Look Around"
+          }
+          else {
+            self.statusLabel.text = "Map Loaded. Shape file not found"
+          }
+          LibPlacenote.instance.startSession()
+          
+          if (self.reportDebug) {
+            LibPlacenote.instance.startReportRecord (uploadProgressCb: ({(completed: Bool, faulted: Bool, percentage: Float) -> Void in
+              if (completed) {
+                self.statusLabel.text = "Dataset Upload Complete"
+                self.fileTransferLabel.text = ""
+              } else if (faulted) {
+                self.statusLabel.text = "Dataset Upload Faulted"
+                self.fileTransferLabel.text = ""
+              } else {
+                self.fileTransferLabel.text = "Dataset Upload: " + String(format: "%.3f", percentage) + "/1.0"
+              }
+            })
+            )
+            print ("Started Debug Report")
+          }
+          
+          self.tapRecognizer?.isEnabled = true
+        } else if (faulted) {
+          print ("Couldnt load map: " + mapId)
+          self.statusLabel.text = "Load error Map Id: " +  mapId
+        } else {
+          print ("Progress: " + percentage.description)
+        }
+    }
+    )
+  }
+  
 }
-
-
 

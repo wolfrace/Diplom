@@ -13,6 +13,7 @@
 		844DB93A20ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844DB93920ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift */; };
 		847F4BC020B5D69600F173DD /* Designer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F4BBF20B5D69600F173DD /* Designer.swift */; };
 		847F4BC220B5E4E600F173DD /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 847F4BC120B5E4E600F173DD /* background.png */; };
+		847F4BC420B60BD400F173DD /* DropboxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F4BC320B60BD400F173DD /* DropboxController.swift */; };
 		848D0B2420ACAED80087A743 /* Database.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 848D0B2220ACAED80087A743 /* Database.xcdatamodeld */; };
 		A28C7963202A46F40052F3FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C7962202A46F40052F3FB /* AppDelegate.swift */; };
 		A28C7965202A46F40052F3FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C7964202A46F40052F3FB /* ViewController.swift */; };
@@ -21,17 +22,20 @@
 		A28C796D202A46F40052F3FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A28C796B202A46F40052F3FB /* LaunchScreen.storyboard */; };
 		A28C7992202A48190052F3FB /* ShapeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C7990202A48190052F3FB /* ShapeType.swift */; };
 		A28C7993202A48190052F3FB /* ShapeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C7991202A48190052F3FB /* ShapeManager.swift */; };
+		FA4DA165CE6F07CC0B694A79 /* Pods_AR_Store.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8425C38860CA42196C909D7E /* Pods_AR_Store.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2904538A54D1EA278D335F50 /* Pods-PlacenoteSDKExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacenoteSDKExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-PlacenoteSDKExample/Pods-PlacenoteSDKExample.release.xcconfig"; sourceTree = "<group>"; };
+		718C56DFB8CE827D2AA165CF /* Pods-AR Store.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AR Store.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AR Store/Pods-AR Store.debug.xcconfig"; sourceTree = "<group>"; };
+		805BA073BB5903FDF7BCEAB2 /* Pods-AR Store.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AR Store.release.xcconfig"; path = "Pods/Target Support Files/Pods-AR Store/Pods-AR Store.release.xcconfig"; sourceTree = "<group>"; };
+		8425C38860CA42196C909D7E /* Pods_AR_Store.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AR_Store.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		844C781020B1864900648B7D /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		844C781220B1888200648B7D /* ShapeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeFactory.swift; sourceTree = "<group>"; };
 		844DB93920ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterAttributesEditorViewController.swift; sourceTree = "<group>"; };
 		847F4BBF20B5D69600F173DD /* Designer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Designer.swift; sourceTree = "<group>"; };
 		847F4BC120B5E4E600F173DD /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = ../../../../Downloads/background.png; sourceTree = "<group>"; };
+		847F4BC320B60BD400F173DD /* DropboxController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxController.swift; sourceTree = "<group>"; };
 		848D0B2320ACAED80087A743 /* Attributes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Attributes.xcdatamodel; sourceTree = "<group>"; };
-		8D2EF9CBDC0F285A1BE9E787 /* Pods-PlacenoteSDKExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacenoteSDKExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlacenoteSDKExample/Pods-PlacenoteSDKExample.debug.xcconfig"; sourceTree = "<group>"; };
 		A28C795F202A46F40052F3FB /* AR Store.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AR Store.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A28C7962202A46F40052F3FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A28C7964202A46F40052F3FB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -50,6 +54,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7FBF965C5C3B1E5C0F8DE1AB /* Pods_PlacenoteSDKExample.framework in Frameworks */,
+				FA4DA165CE6F07CC0B694A79 /* Pods_AR_Store.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				FC572E55F179D977C01BA451 /* Pods_PlacenoteSDKExample.framework */,
+				8425C38860CA42196C909D7E /* Pods_AR_Store.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -67,8 +73,8 @@
 		9A3DFA0AD5B2FBB266B40DEE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8D2EF9CBDC0F285A1BE9E787 /* Pods-PlacenoteSDKExample.debug.xcconfig */,
-				2904538A54D1EA278D335F50 /* Pods-PlacenoteSDKExample.release.xcconfig */,
+				718C56DFB8CE827D2AA165CF /* Pods-AR Store.debug.xcconfig */,
+				805BA073BB5903FDF7BCEAB2 /* Pods-AR Store.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -108,6 +114,7 @@
 				844C781020B1864900648B7D /* DatabaseManager.swift */,
 				844C781220B1888200648B7D /* ShapeFactory.swift */,
 				847F4BBF20B5D69600F173DD /* Designer.swift */,
+				847F4BC320B60BD400F173DD /* DropboxController.swift */,
 			);
 			path = "AR Store";
 			sourceTree = "<group>";
@@ -124,7 +131,6 @@
 				A28C795C202A46F40052F3FB /* Frameworks */,
 				A28C795D202A46F40052F3FB /* Resources */,
 				82D16344A80B9641EFF6D6B9 /* [CP] Embed Pods Frameworks */,
-				68C168708C4444AD23C7D7B0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -195,26 +201,11 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PlacenoteSDKExample-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-AR Store-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		68C168708C4444AD23C7D7B0 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlacenoteSDKExample/Pods-PlacenoteSDKExample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		82D16344A80B9641EFF6D6B9 /* [CP] Embed Pods Frameworks */ = {
@@ -223,18 +214,22 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PlacenoteSDKExample/Pods-PlacenoteSDKExample-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-AR Store/Pods-AR Store-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${PODS_ROOT}/PlacenoteSDK/Placenote.framework",
 				"${BUILT_PRODUCTS_DIR}/PlacenoteSDK/PlacenoteSDK.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyDropbox/SwiftyDropbox.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Placenote.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PlacenoteSDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyDropbox.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PlacenoteSDKExample/Pods-PlacenoteSDKExample-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AR Store/Pods-AR Store-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -246,6 +241,7 @@
 			files = (
 				848D0B2420ACAED80087A743 /* Database.xcdatamodeld in Sources */,
 				844DB93A20ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift in Sources */,
+				847F4BC420B60BD400F173DD /* DropboxController.swift in Sources */,
 				A28C7965202A46F40052F3FB /* ViewController.swift in Sources */,
 				A28C7993202A48190052F3FB /* ShapeManager.swift in Sources */,
 				A28C7992202A48190052F3FB /* ShapeType.swift in Sources */,
@@ -388,7 +384,7 @@
 		};
 		A28C7988202A46F40052F3FB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8D2EF9CBDC0F285A1BE9E787 /* Pods-PlacenoteSDKExample.debug.xcconfig */;
+			baseConfigurationReference = 718C56DFB8CE827D2AA165CF /* Pods-AR Store.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -406,7 +402,7 @@
 		};
 		A28C7989202A46F40052F3FB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2904538A54D1EA278D335F50 /* Pods-PlacenoteSDKExample.release.xcconfig */;
+			baseConfigurationReference = 805BA073BB5903FDF7BCEAB2 /* Pods-AR Store.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

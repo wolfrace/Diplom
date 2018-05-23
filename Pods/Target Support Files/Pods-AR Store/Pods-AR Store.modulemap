@@ -1,0 +1,6 @@
+framework module Pods_AR_Store {
+  umbrella header "Pods-AR Store-umbrella.h"
+
+  export *
+  module * { export * }
+}
