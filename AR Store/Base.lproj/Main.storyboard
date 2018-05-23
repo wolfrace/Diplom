@@ -146,7 +146,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="20 May - 25 May" borderStyle="bezel" adjustsFontForContentSizeCategory="YES" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="XVm-3C-74x" userLabel="PeriodEdit">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="20 May - 25 May" borderStyle="bezel" adjustsFontForContentSizeCategory="YES" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="XVm-3C-74x" userLabel="PeriodEdit" customClass="DarkTextField" customModule="AR_Store" customModuleProvider="target">
                                 <rect key="frame" x="21" y="89" width="275" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <string key="placeholder" base64-UTF8="YES">
@@ -156,7 +156,7 @@ FkVudGVyIHBlcmlvZA
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.94999998807907104" contentMode="scaleToFill" fixedFrame="YES" text="Special offer. Best price! From classic collection" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gaw-MA-Yq9">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.94999998807907104" contentMode="scaleToFill" fixedFrame="YES" text="Special offer. Best price! From classic collection" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gaw-MA-Yq9" customClass="DarkTextView" customModule="AR_Store" customModuleProvider="target">
                                 <rect key="frame" x="21" y="176" width="275" height="208"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>

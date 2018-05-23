@@ -31,3 +31,29 @@ class DarkLabel: UILabel {
     self.layer.shadowOffset = CGSize(width: 0, height: 0)
   }
 }
+
+class DarkTextField: UITextField {
+  override func didMoveToWindow() {
+    self.backgroundColor = UIColor.darkGray.withAlphaComponent(0.7)
+    self.textColor = UIColor.white
+    self.clipsToBounds = true
+    self.layer.cornerRadius = 10
+    self.layer.shadowColor = UIColor.darkGray.cgColor
+    self.layer.shadowRadius = 4
+    self.layer.shadowOpacity = 0.5
+    self.layer.shadowOffset = CGSize(width: 0, height: 0)
+  }
+}
+
+class DarkTextView: UITextView {
+  override func didMoveToWindow() {
+    self.backgroundColor = UIColor.darkGray.withAlphaComponent(0.7)
+    self.textColor = UIColor.white
+    self.clipsToBounds = true
+    self.layer.cornerRadius = 10
+    self.layer.shadowColor = UIColor.darkGray.cgColor
+    self.layer.shadowRadius = 4
+    self.layer.shadowOpacity = 0.5
+    self.layer.shadowOffset = CGSize(width: 0, height: 0)
+  }
+}

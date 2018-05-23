@@ -599,7 +599,7 @@ class ViewController
     if let result = hitTestResults.first {
       let pose = LibPlacenote.instance.processPose(pose: result.worldTransform)
       
-      let alert = UIAlertController(title: "Choose shape", message: nil, preferredStyle: .actionSheet)
+      let alert = UIAlertController(title: "Choose shape", message: nil, preferredStyle: .actionSheet)      
       let addPlaneAction = UIAlertAction(title: "Plane", style: .default) { [weak self] action in
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
