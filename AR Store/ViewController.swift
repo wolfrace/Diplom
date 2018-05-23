@@ -73,7 +73,7 @@ class ViewController
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = appDelegate.persistentContainer.viewContext
-        
+    
     //App Related initializations
     shapeManager = ShapeManager(scene: scnScene, view: scnView, dbObjectContext: context)
     tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))

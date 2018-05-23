@@ -15,7 +15,27 @@ class DatabaseManager {
   
   init(dbObjectContext: NSManagedObjectContext) {
     context = dbObjectContext
-    //dropboxController.uploadData(data: "Hello, Dropbox!".data(using: .utf8, allowLossyConversion: false)!)
+  }
+  
+  func saveDatabaseOnDropbox(completion: (() -> Void)? = nil, progressHandler: ((_ progress: Progress) -> Void)? = nil) {
+    let attributesJson = getAllAttributesInJson()
+    dropboxController.uploadData(data: attributesJson.string!.data(using: .utf8, allowLossyConversion: false)!,
+                                 completion: completion,
+                                 progressHandler: progressHandler)
+  }
+  
+  private func getAllAttributesInJson() -> [String] {
+    var attributesInJson:[String] = []
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Attributes")
+    do {
+      let result = try self.context.fetch(request)
+      for data in result as! [Attributes] {
+        attributesInJson.append(data.toJSON()!)
+      }
+    } catch {
+      print("Failed")
+    }    
+    return attributesInJson
   }
   
   func getAttributes(id: Int64) -> [String: String] {
@@ -118,4 +138,29 @@ class DatabaseManager {
     return jsonString!
   }
   
+}
+
+extension Array {
+  var string: String? {
+    do {
+      let data = try JSONSerialization.data(withJSONObject: self, options: [])
+      return String(data: data, encoding: .utf8)
+    } catch {
+      return nil
+    }
+  }
+}
+
+extension NSManagedObject {
+  func toJSON() -> String? {
+    let keys = Array(self.entity.attributesByName.keys)
+    let dict = self.dictionaryWithValues(forKeys: keys)
+    do {
+      let jsonData = try JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
+      let reqJSONStr = String(data: jsonData, encoding: .utf8)
+      return reqJSONStr
+    }
+    catch{}
+    return nil
+  }
 }

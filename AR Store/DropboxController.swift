@@ -13,21 +13,23 @@ class DropboxController {
   private var client = DropboxClient(accessToken: "b2ons7g1loIAAAAAAAAAvRJhr1JUj37VsGRiwx_qC_a3zRpaTZ-FYVxAqaqQQ77E")
   private var currentUploadRequest: UploadRequest<Files.FileMetadataSerializer, Files.UploadErrorSerializer>?
   
-  func uploadData(data: Data, completion: (() -> Void)? = nil) {
-    let request = client.files.upload(path: "/attributes.bin", input: data)
-      .response { response, error in
-        self.currentUploadRequest = nil
-        if let response = response {
-          print(response)
-        } else if let error = error {
-          print(error)
+  func uploadData(data: Data, completion: (() -> Void)? = nil, progressHandler: ((_ progress: Progress) -> Void)? = nil) {
+    deleteData {[weak self] () in
+      let request = self?.client.files.upload(path: "/attributes.bin", input: data)
+        .response { response, error in
+          self?.currentUploadRequest = nil
+          if let response = response {
+            print(response)
+          } else if let error = error {
+            print(error)
+          }
+          completion?()
         }
-        completion?()
+        .progress { progressData in
+          print(progressData)
       }
-      .progress { progressData in
-        print(progressData)
+      self?.currentUploadRequest = request
     }
-    currentUploadRequest = request
   }
   
   func downloadData(completion: @escaping ((_ data: Data?) -> Void)) {
