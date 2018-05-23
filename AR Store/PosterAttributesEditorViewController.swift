@@ -13,7 +13,7 @@ import SceneKit
 class PosterAttributesEditorViewController
 : UIViewController {
     
-  @IBOutlet var scnView: UIView!
+  @IBOutlet var scnView: PosterAttributesEditorView!
   @IBOutlet var periodTextField: DarkTextField!
   @IBOutlet var specialOfferTextView: DarkTextView!
   @IBOutlet var nextBtn: RoundButton!
@@ -37,10 +37,6 @@ class PosterAttributesEditorViewController
     if (initialSpecialOffer != nil) {
       specialOfferTextView.text = initialSpecialOffer!
     }
-    
-    self.specialOfferTextView.layer.borderColor = UIColor.black.cgColor
-    self.specialOfferTextView.layer.borderWidth = 1
-    self.specialOfferTextView.layer.cornerRadius = 5
   }
   
   func doOnEditFinished(delegate: @escaping ((_ period: String, _ specialOffer: String) -> Void)) {
