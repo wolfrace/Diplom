@@ -32,10 +32,6 @@ class ViewController
   @IBOutlet var newMapButton: RoundButton!
   @IBOutlet var pickMapButton: RoundButton!
   @IBOutlet var statusLabel: DarkLabel!
-  @IBOutlet var showPNLabel: UILabel!
-  @IBOutlet var showPNSelection: UISwitch!
-  @IBOutlet var planeDetLabel: UILabel!
-  @IBOutlet var planeDetSelection: UISwitch!
   @IBOutlet var fileTransferLabel: UILabel!
   
   //AR Scene
@@ -61,7 +57,7 @@ class ViewController
   private var planesVizNodes = [UUID: SCNNode]();
   
   private var showFeatures: Bool = true
-  private var planeDetection: Bool = false
+  private var planeDetection: Bool = true
 
   private var locationManager: CLLocationManager!
   private var lastLocation: CLLocation? = nil
@@ -98,10 +94,6 @@ class ViewController
 
     //UI Updates
     newMapButton.isEnabled = false
-    showPNLabel.isHidden = true
-    showPNSelection.isHidden = true
-    planeDetLabel.isHidden = true
-    planeDetSelection.isHidden = true
     
     locationManager = CLLocationManager()
     locationManager.requestWhenInUseAuthorization()
@@ -256,10 +248,6 @@ class ViewController
       statusLabel.text = "Mapping: Tap to add shapes!"
       tapRecognizer?.isEnabled = true
       mapTable.isHidden = true
-      showPNLabel.isHidden = false
-      showPNSelection.isHidden = false
-      planeDetLabel.isHidden = false
-      planeDetSelection.isHidden = false
       shapeManager.clearShapes() //creating new map, remove old shapes.
     }
     else if (mappingStarted) { //mapping been running, save map
@@ -286,7 +274,6 @@ class ViewController
             if (!LibPlacenote.instance.setMapMetadata(mapId: mapId!, metadataJson: jsonString!)) {
                 print ("Failed to set map metadata")
             }
-            self.planeDetSelection.isOn = false
             self.planeDetection = false
             self.configureSession()
           } else {
@@ -307,10 +294,6 @@ class ViewController
       )
       newMapButton.setTitle("New Map", for: .normal)
       tapRecognizer?.isEnabled = false
-      showPNLabel.isHidden = true
-      showPNSelection.isHidden = true
-      planeDetLabel.isHidden = true
-      planeDetSelection.isHidden = true
     }
   }
 
@@ -323,11 +306,6 @@ class ViewController
       localizationStarted = false
       pickMapButton.setTitle("Load Map", for: .normal)
       statusLabel.text = "Cleared"
-      showPNLabel.isHidden = true
-      showPNSelection.isHidden = true
-      planeDetLabel.isHidden = true
-      planeDetSelection.isHidden = true
-      planeDetSelection.isOn = false
       planeDetection = false
       configureSession()
       return
@@ -356,12 +334,6 @@ class ViewController
     else {
       ptViz?.disableFeaturePoints()
     }
-  }
-  
-  
-  @IBAction func onPlaneDetectionOnOff(_ sender: Any) {
-    planeDetection = !planeDetection
-    configureSession()
   }
   
   func configureSession() {
@@ -443,10 +415,6 @@ class ViewController
           self.mapTable.isHidden = true
           self.pickMapButton.setTitle("Stop/Clear", for: .normal)
           self.newMapButton.isEnabled = true
-          self.showPNLabel.isHidden = false
-          self.showPNSelection.isHidden = false
-          self.planeDetLabel.isHidden = false
-          self.planeDetSelection.isHidden = false
           
           if (self.shapeManager.loadShapeArray(shapeArray: self.maps[indexPath.row].1?["shapeArray"] as? [[String: [String: String]]])) {
             self.statusLabel.text = "Map Loaded. Look Around"
