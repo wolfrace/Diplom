@@ -14,9 +14,9 @@ class PosterAttributesEditorViewController
 : UIViewController {
     
   @IBOutlet var scnView: UIView!
-  @IBOutlet weak var periodTextField: UITextField!
-  @IBOutlet weak var specialOfferTextView: UITextView!
-  @IBOutlet weak var nextBtn: UIButton!
+  @IBOutlet var periodTextField: UITextField!
+  @IBOutlet var specialOfferTextView: UITextView!
+  @IBOutlet var nextBtn: RoundButton!
   var editFinishedDelegate: ((_ period: String, _ specialOffer: String) -> Void)!
   
   private var initialPeriod: String? = nil

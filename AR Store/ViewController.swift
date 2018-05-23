@@ -29,9 +29,9 @@ class ViewController
   @IBOutlet var scnView: ARSCNView!
 
   @IBOutlet var mapTable: UITableView!
-  @IBOutlet var newMapButton: UIButton!
-  @IBOutlet var pickMapButton: UIButton!
-  @IBOutlet var statusLabel: UILabel!
+  @IBOutlet var newMapButton: RoundButton!
+  @IBOutlet var pickMapButton: RoundButton!
+  @IBOutlet var statusLabel: DarkLabel!
   @IBOutlet var showPNLabel: UILabel!
   @IBOutlet var showPNSelection: UISwitch!
   @IBOutlet var planeDetLabel: UILabel!

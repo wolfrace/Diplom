@@ -11,6 +11,7 @@
 		844C781120B1864900648B7D /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844C781020B1864900648B7D /* DatabaseManager.swift */; };
 		844C781320B1888200648B7D /* ShapeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844C781220B1888200648B7D /* ShapeFactory.swift */; };
 		844DB93A20ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844DB93920ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift */; };
+		847F4BC020B5D69600F173DD /* Designer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F4BBF20B5D69600F173DD /* Designer.swift */; };
 		848D0B2420ACAED80087A743 /* Database.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 848D0B2220ACAED80087A743 /* Database.xcdatamodeld */; };
 		A28C7963202A46F40052F3FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C7962202A46F40052F3FB /* AppDelegate.swift */; };
 		A28C7965202A46F40052F3FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C7964202A46F40052F3FB /* ViewController.swift */; };
@@ -26,7 +27,7 @@
 		844C781020B1864900648B7D /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		844C781220B1888200648B7D /* ShapeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeFactory.swift; sourceTree = "<group>"; };
 		844DB93920ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterAttributesEditorViewController.swift; sourceTree = "<group>"; };
-		84827D4620B3105500CD27BA /* AR Store */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "AR Store"; sourceTree = "<group>"; };
+		847F4BBF20B5D69600F173DD /* Designer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Designer.swift; sourceTree = "<group>"; };
 		848D0B2320ACAED80087A743 /* Attributes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Attributes.xcdatamodel; sourceTree = "<group>"; };
 		8D2EF9CBDC0F285A1BE9E787 /* Pods-PlacenoteSDKExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlacenoteSDKExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PlacenoteSDKExample/Pods-PlacenoteSDKExample.debug.xcconfig"; sourceTree = "<group>"; };
 		A28C795F202A46F40052F3FB /* AR Store.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AR Store.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,11 +100,11 @@
 				A28C7969202A46F40052F3FB /* Assets.xcassets */,
 				A28C796B202A46F40052F3FB /* LaunchScreen.storyboard */,
 				A28C796E202A46F40052F3FB /* Info.plist */,
-				84827D4620B3105500CD27BA /* AR Store */,
 				848D0B2220ACAED80087A743 /* Database.xcdatamodeld */,
 				844DB93920ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift */,
 				844C781020B1864900648B7D /* DatabaseManager.swift */,
 				844C781220B1888200648B7D /* ShapeFactory.swift */,
+				847F4BBF20B5D69600F173DD /* Designer.swift */,
 			);
 			path = "AR Store";
 			sourceTree = "<group>";
@@ -247,6 +248,7 @@
 				A28C7963202A46F40052F3FB /* AppDelegate.swift in Sources */,
 				844C781320B1888200648B7D /* ShapeFactory.swift in Sources */,
 				844C781120B1864900648B7D /* DatabaseManager.swift in Sources */,
+				847F4BC020B5D69600F173DD /* Designer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
