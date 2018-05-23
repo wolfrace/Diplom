@@ -24,6 +24,23 @@ class DatabaseManager {
                                  progressHandler: progressHandler)
   }
   
+  func loadDatabaseFromDropbox() {
+    dropboxController.downloadData{ [weak self](data: Data?) in
+      if(data != nil) {
+        self!.deleteAllData()
+        
+        let backToString = String(data: data!, encoding: .utf8) as String?
+        let attributesJson = self!.jsonToArray(from: backToString!)
+        for record in attributesJson {
+          let dict = self!.jsonToDictionaryAny(from: record)
+          let id = dict["objectId"] as! Int64
+          let attributes = self!.jsonToDictionaryString(from: dict["data"]! as! String)
+          self!.saveAttributesImpl(id: id, attributes: attributes)
+        }
+      }
+    }
+  }
+  
   private func getAllAttributesInJson() -> [String] {
     var attributesInJson:[String] = []
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Attributes")
@@ -48,7 +65,7 @@ class DatabaseManager {
     do {
       let result = try self.context.fetch(request)
       for data in result as! [Attributes] {
-        attributes =  jsonToDictionary(from: data.data!)
+        attributes =  jsonToDictionaryString(from: data.data!)
       }
     } catch {
       print("Failed")
@@ -75,6 +92,22 @@ class DatabaseManager {
     }
   }
   
+  private func deleteAllData()
+  {
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Attributes")
+    fetchRequest.returnsObjectsAsFaults = false
+    
+    do {
+      let results = try context.fetch(fetchRequest)
+      for managedObject in results {
+        let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
+        context.delete(managedObjectData)
+      }
+    } catch let error as NSError {
+      print("Detele all data in Attributes error : \(error) \(error.userInfo)")
+    }
+  }
+  
   func deleteAttributes(id: Int64) {
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Attributes")
     request.predicate = NSPredicate(format: "objectId == %d", id)
@@ -91,12 +124,11 @@ class DatabaseManager {
     }
   }
   
-  func saveAttributes(attributes: [String: String]) -> Int64 {
-    let nextAttributesId = getAutoIncremenet()
+  private func saveAttributesImpl(id: Int64, attributes: [String: String]) {
     let entity = NSEntityDescription.entity(forEntityName: "Attributes", in: self.context)
     let newAttributes = Attributes(entity: entity!, insertInto: self.context)
     
-    newAttributes.objectId = nextAttributesId
+    newAttributes.objectId = id
     newAttributes.data = dictionaryToJson(from: attributes)
     
     do {
@@ -104,6 +136,11 @@ class DatabaseManager {
     } catch {
       print("Failed saving")
     }
+  }
+  
+  func saveAttributes(attributes: [String: String]) -> Int64 {
+    let nextAttributesId = getAutoIncremenet()
+    saveAttributesImpl(id: nextAttributesId, attributes: attributes)
     
     return nextAttributesId
   }
@@ -126,10 +163,16 @@ class DatabaseManager {
     return newID
   }
   
-  private func jsonToDictionary(from text: String) -> [String: String] {
+  private func jsonToDictionaryString(from text: String) -> [String: String] {
     guard let data = text.data(using: .utf8) else { return [:] }
     let anyResult: Any? = try? JSONSerialization.jsonObject(with: data, options: [])
     return anyResult as? [String: String] ?? [:]
+  }
+  
+  private func jsonToDictionaryAny(from text: String) -> [String: Any] {
+    guard let data = text.data(using: .utf8) else { return [:] }
+    let anyResult: Any? = try? JSONSerialization.jsonObject(with: data, options: [])
+    return anyResult as? [String: Any] ?? [:]
   }
   
   private func dictionaryToJson(from dictionary: [String: String]) -> String {
@@ -137,7 +180,12 @@ class DatabaseManager {
     let jsonString = String(data: jsonData!, encoding: .utf8)
     return jsonString!
   }
-  
+ 
+  private func jsonToArray(from text:String) -> [String] {
+    guard let data = text.data(using: .utf8) else { return [] }
+    let anyResult: Any? = try? JSONSerialization.jsonObject(with: data, options: [])
+    return anyResult as? [String] ?? []
+  }
 }
 
 extension Array {
@@ -156,7 +204,7 @@ extension NSManagedObject {
     let keys = Array(self.entity.attributesByName.keys)
     let dict = self.dictionaryWithValues(forKeys: keys)
     do {
-      let jsonData = try JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
+      let jsonData = try JSONSerialization.data(withJSONObject: dict, options: [])
       let reqJSONStr = String(data: jsonData, encoding: .utf8)
       return reqJSONStr
     }
