@@ -16,6 +16,8 @@ class ShapeFactory {
       return createPlaneShape(position: position, attributes: attributes)
     } else if (type == ShapeType.InformationTable) {
       return createInformationTableShape(position: position, attributes: attributes)
+    } else if (type == ShapeType.LateralFootnote) {
+      return createLateralFootnote(position: position, attributes: attributes)
     }
     
     return SCNNode()
@@ -66,7 +68,7 @@ class ShapeFactory {
     posterNode.addChildNode(specialOfferNode)
     posterNode.addChildNode(planeNode)
     
-    posterNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
+    //posterNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
     
     return posterNode
   }
@@ -108,7 +110,51 @@ class ShapeFactory {
     posterNode.addChildNode(specialOfferNode)
     posterNode.addChildNode(planeNode)
     
-    posterNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
+    //posterNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
+    
+    return posterNode
+  }
+  
+  func createLateralFootnote(position: SCNVector3, attributes: [String: String]) -> SCNNode {
+    let imageBase64 = attributes["image"]!
+    let dataDecoded : Data = Data(base64Encoded: imageBase64, options: .ignoreUnknownCharacters)!
+    let image = UIImage(data: dataDecoded)!
+    let period = attributes["period"]!
+    let specialOffer = attributes["specialOffer"]!
+    let pov = SCNVector3Make(Float(attributes["lookAt.x"]!)!, position.y, Float(attributes["lookAt.z"]!)!)
+    
+    var relativePosition = SCNVector3Make(0, 0, 0)
+    let planeNode = SCNNode(geometry: ShapeType.createPlaneShape(image: image))
+    planeNode.position = relativePosition
+    planeNode.position.x -= 0.22
+    planeNode.scale = SCNVector3(x:0.4, y:0.4, z:0.4)
+    
+    let bgNode = SCNNode(geometry: ShapeType.createPlaneShape(image: UIImage(named: "footnote.png")!))
+    bgNode.position = relativePosition
+    //planeNode.scale = SCNVector3(x:1.5, y:1.5, z:1.5)
+    bgNode.position.z -= 0.01
+    
+    let periodNode = SCNNode(geometry: ShapeType.createLateralFootnoteTitleShape(period: period))
+    periodNode.scale = SCNVector3Make(0.005, 0.005, 0.005)
+    relativePosition.x -= 0.025
+    relativePosition.y += 0.1
+    periodNode.position = relativePosition
+    
+    let specialOfferNode = SCNNode(geometry: ShapeType.createLateralFootnoteTextShape(specialOffer: specialOffer))
+    specialOfferNode.scale = SCNVector3Make(0.005, 0.005, 0.005)
+    relativePosition.y -= 0.5
+    specialOfferNode.position = relativePosition
+    
+    let posterNode = SCNNode()
+    posterNode.position = position
+    //posterNode.position.x += 0.5
+    posterNode.look(at: pov)
+    posterNode.addChildNode(bgNode)
+    posterNode.addChildNode(periodNode)
+    posterNode.addChildNode(specialOfferNode)
+    posterNode.addChildNode(planeNode)
+    
+    posterNode.scale = SCNVector3(x:0.4, y:0.4, z:0.4)
     
     return posterNode
   }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7FBF965C5C3B1E5C0F8DE1AB /* Pods_PlacenoteSDKExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC572E55F179D977C01BA451 /* Pods_PlacenoteSDKExample.framework */; };
+		84308C5D20B712D400D2762D /* footnote.png in Resources */ = {isa = PBXBuildFile; fileRef = 84308C5C20B712D300D2762D /* footnote.png */; };
 		844C781120B1864900648B7D /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844C781020B1864900648B7D /* DatabaseManager.swift */; };
 		844C781320B1888200648B7D /* ShapeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844C781220B1888200648B7D /* ShapeFactory.swift */; };
 		844DB93A20ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844DB93920ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift */; };
@@ -29,6 +30,7 @@
 		718C56DFB8CE827D2AA165CF /* Pods-AR Store.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AR Store.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AR Store/Pods-AR Store.debug.xcconfig"; sourceTree = "<group>"; };
 		805BA073BB5903FDF7BCEAB2 /* Pods-AR Store.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AR Store.release.xcconfig"; path = "Pods/Target Support Files/Pods-AR Store/Pods-AR Store.release.xcconfig"; sourceTree = "<group>"; };
 		8425C38860CA42196C909D7E /* Pods_AR_Store.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AR_Store.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		84308C5C20B712D300D2762D /* footnote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = footnote.png; path = ../../../../Downloads/footnote.png; sourceTree = "<group>"; };
 		844C781020B1864900648B7D /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		844C781220B1888200648B7D /* ShapeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeFactory.swift; sourceTree = "<group>"; };
 		844DB93920ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterAttributesEditorViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 		A28C7961202A46F40052F3FB /* AR Store */ = {
 			isa = PBXGroup;
 			children = (
+				84308C5C20B712D300D2762D /* footnote.png */,
 				847F4BC120B5E4E600F173DD /* background.png */,
 				A28C7962202A46F40052F3FB /* AppDelegate.swift */,
 				A28C7964202A46F40052F3FB /* ViewController.swift */,
@@ -182,6 +185,7 @@
 			files = (
 				A28C796D202A46F40052F3FB /* LaunchScreen.storyboard in Resources */,
 				847F4BC220B5E4E600F173DD /* background.png in Resources */,
+				84308C5D20B712D400D2762D /* footnote.png in Resources */,
 				A28C796A202A46F40052F3FB /* Assets.xcassets in Resources */,
 				A28C7968202A46F40052F3FB /* Main.storyboard in Resources */,
 			);

@@ -146,5 +146,39 @@ public enum ShapeType:Int {
     
     return text
   }
+  
+  static func createLateralFootnoteTitleShape(period: String) -> SCNGeometry {
+    let text = SCNText(string: period, extrusionDepth: 0.02)
+    let font = UIFont(name: "Futura", size: 10)
+    text.font = font
+    text.alignmentMode = kCAAlignmentLeft
+    text.firstMaterial?.diffuse.contents = UIColor.white
+    text.firstMaterial?.specular.contents = UIColor.white
+    text.firstMaterial?.isDoubleSided = true
+    text.chamferRadius = 0.01
+    text.truncationMode = kCATruncationNone
+    text.isWrapped = true
+    
+    text.containerFrame = CGRect(origin: .zero, size: CGSize(width: 100, height: 20))
+    
+    return text
+  }
+  
+  static func createLateralFootnoteTextShape(specialOffer: String) -> SCNGeometry {
+    let text = SCNText(string: specialOffer, extrusionDepth: 0.02)
+    let font = UIFont(name: "Futura", size: 12)
+    text.font = font
+    text.alignmentMode = kCAAlignmentLeft
+    text.firstMaterial?.diffuse.contents = UIColor.white
+    text.firstMaterial?.specular.contents = UIColor.white
+    text.firstMaterial?.isDoubleSided = true
+    text.chamferRadius = 0.01
+    text.truncationMode = kCATruncationNone
+    text.isWrapped = true
+    
+    text.containerFrame = CGRect(origin: .zero, size: CGSize(width: 100.0, height: 100))
+    
+    return text
+  }
 }
 
