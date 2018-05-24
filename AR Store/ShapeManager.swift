@@ -145,7 +145,7 @@ class ShapeManager {
   }
   
   func spawnInformationTable(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
-    placePlaneShape(position: position, image: image, period: period, specialOffer: specialOffer)
+    placeInformationTableShape(position: position, image: image, period: period, specialOffer: specialOffer)
   }
   
   func spawnPoster(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
@@ -177,6 +177,25 @@ class ShapeManager {
     attributes["lookAt.z"] = String(pov.z)
     
     placeShape(position: position, type: ShapeType.Plane, attributes: attributes)
+  }
+  
+  func placeInformationTableShape (position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+    var attributes: [String: String] = [:]
+    
+    let imageData:NSData = UIImagePNGRepresentation(image)! as NSData
+    let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
+    attributes["image"] = strBase64
+    attributes["period"] = period
+    attributes["specialOffer"] = specialOffer
+    
+    var pov = (scnView.pointOfView?.position)!
+    pov.y = position.y
+    pov.z = 2 * position.z - pov.z
+    pov.x = 2 * position.x - pov.x
+    attributes["lookAt.x"] = String(pov.x)
+    attributes["lookAt.z"] = String(pov.z)
+    
+    placeShape(position: position, type: ShapeType.InformationTable, attributes: attributes)
   }
   
   func placeShape (position: SCNVector3, type: ShapeType, attributes: [String: String]) {

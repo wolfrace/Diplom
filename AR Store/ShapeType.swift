@@ -30,15 +30,12 @@ public enum ShapeType:Int {
     return geometry
   }
   
-  static func createInformationTableShape(image: UIImage) -> SCNGeometry {
-    let imageRatio = image.size.height / image.size.width
-    let desiredPlaneWidth: CGFloat = 1
-    
-    let geometry = SCNPlane(width: desiredPlaneWidth, height: desiredPlaneWidth * imageRatio)
+  static func createInformationTableBgShape() -> SCNGeometry {
+    let geometry = SCNPlane(width: 1, height: 2)
     let planeMaterial = SCNMaterial()
-    planeMaterial.diffuse.contents = image
-    planeMaterial.isDoubleSided = true
     geometry.firstMaterial = planeMaterial
+    geometry.firstMaterial!.isDoubleSided = true
+    geometry.firstMaterial!.diffuse.contents = UIColor.red.cgColor
     
     return geometry
   }
@@ -112,6 +109,40 @@ public enum ShapeType:Int {
     text.isWrapped = true
     
     text.containerFrame = CGRect(origin: .zero, size: CGSize(width: 200.0, height: 100))
+    
+    return text
+  }
+  
+  static func createInformationTableTitleShape(period: String) -> SCNGeometry {
+    let text = SCNText(string: period, extrusionDepth: 0.02)
+    let font = UIFont(name: "Futura", size: 10)
+    text.font = font
+    text.alignmentMode = kCAAlignmentCenter
+    text.firstMaterial?.diffuse.contents = UIColor.white
+    text.firstMaterial?.specular.contents = UIColor.white
+    text.firstMaterial?.isDoubleSided = true
+    text.chamferRadius = 0.01
+    text.truncationMode = kCATruncationNone
+    text.isWrapped = true
+    
+    text.containerFrame = CGRect(origin: .zero, size: CGSize(width: 100, height: 20))
+    
+    return text
+  }
+  
+  static func createInformationTableTextShape(specialOffer: String) -> SCNGeometry {
+    let text = SCNText(string: specialOffer, extrusionDepth: 0.02)
+    let font = UIFont(name: "Futura", size: 15)
+    text.font = font
+    text.alignmentMode = kCAAlignmentCenter
+    text.firstMaterial?.diffuse.contents = UIColor.white
+    text.firstMaterial?.specular.contents = UIColor.white
+    text.firstMaterial?.isDoubleSided = true
+    text.chamferRadius = 0.01
+    text.truncationMode = kCATruncationNone
+    text.isWrapped = true
+    
+    text.containerFrame = CGRect(origin: .zero, size: CGSize(width: 100.0, height: 100))
     
     return text
   }
