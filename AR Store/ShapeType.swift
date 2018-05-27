@@ -10,12 +10,14 @@ import Foundation
 import SceneKit
 
 public enum ShapeType:Int {
-  
-  case Plane = 0
-  case InformationTable // информационная доска
-  case Poster // постер
-  case Tag // бирка
-  case LateralFootnote // боковая выноска
+  //case Plane = 0
+  case Poster = 0
+  case Cube
+  case LateralFootnote
+  case LateralFootnoteWithoutImage
+  case Footnote
+  case FootnoteWithoutImage
+  case Arrow
   
   static func createPlaneShape(image: UIImage) -> SCNGeometry {
     let imageRatio = image.size.height / image.size.width

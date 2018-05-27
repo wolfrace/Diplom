@@ -140,46 +140,58 @@ class ShapeManager {
     shapeAttributes.removeAll()
   }
   
-  func spawnPlane(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
-    placePlaneShape(position: position, image: image, period: period, specialOffer: specialOffer)
-  }
-  
-  func spawnInformationTable(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
-    placeInformationTableShape(position: position, image: image, period: period, specialOffer: specialOffer)
-  }
+//  func spawnPlane(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+//    placePlaneShape(position: position, image: image, period: period, specialOffer: specialOffer)
+//  }
   
   func spawnPoster(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
-    placePlaneShape(position: position, image: image, period: period, specialOffer: specialOffer)
+    placePosterShape(position: position, image: image, period: period, specialOffer: specialOffer)
   }
   
-  func spawnTag(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
-    placePlaneShape(position: position, image: image, period: period, specialOffer: specialOffer)
+  func spawnCube(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+    placeCubeShape(position: position, image: image, period: period, specialOffer: specialOffer)
+  }
+  
+  func spawnFootnote(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+    placeFootnoteShape(position: position, image: image, period: period, specialOffer: specialOffer)
+  }
+  
+  func spawnFootnoteWithoutImage(position: SCNVector3, period: String, specialOffer: String) {
+    placeFootnoteWithoutImageShape(position: position, period: period, specialOffer: specialOffer)
   }
   
   func spawnLateralFootnote(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
     placeLateralFootnoteShape(position: position, image: image, period: period, specialOffer: specialOffer)
   }
   
-  func placePlaneShape (position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
-    var attributes: [String: String] = [:]
-    
-    let imageData:NSData = UIImagePNGRepresentation(image)! as NSData
-    let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
-    attributes["image"] = strBase64
-    attributes["period"] = period
-    attributes["specialOffer"] = specialOffer
-    
-    var pov = (scnView.pointOfView?.position)!
-    pov.y = position.y
-    pov.z = 2 * position.z - pov.z
-    pov.x = 2 * position.x - pov.x
-    attributes["lookAt.x"] = String(pov.x)
-    attributes["lookAt.z"] = String(pov.z)
-    
-    placeShape(position: position, type: ShapeType.Plane, attributes: attributes)
+  func spawnLateralFootnoteWithoutImage(position: SCNVector3, period: String, specialOffer: String) {
+    placeLateralFootnoteWithoutImageShape(position: position, period: period, specialOffer: specialOffer)
   }
   
-  func placeInformationTableShape (position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+  func spawnArrow(position: SCNVector3, period: String, specialOffer: String) {
+    placeArrowShape(position: position, period: period, specialOffer: specialOffer)
+  }
+  
+//  func placePlaneShape (position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+//    var attributes: [String: String] = [:]
+//
+//    let imageData:NSData = UIImagePNGRepresentation(image)! as NSData
+//    let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
+//    attributes["image"] = strBase64
+//    attributes["period"] = period
+//    attributes["specialOffer"] = specialOffer
+//
+//    var pov = (scnView.pointOfView?.position)!
+//    pov.y = position.y
+//    pov.z = 2 * position.z - pov.z
+//    pov.x = 2 * position.x - pov.x
+//    attributes["lookAt.x"] = String(pov.x)
+//    attributes["lookAt.z"] = String(pov.z)
+//
+//    placeShape(position: position, type: ShapeType.Plane, attributes: attributes)
+//  }
+  
+  func placePosterShape (position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
     var attributes: [String: String] = [:]
     
     let imageData:NSData = UIImagePNGRepresentation(image)! as NSData
@@ -195,7 +207,60 @@ class ShapeManager {
     attributes["lookAt.x"] = String(pov.x)
     attributes["lookAt.z"] = String(pov.z)
     
-    placeShape(position: position, type: ShapeType.InformationTable, attributes: attributes)
+    placeShape(position: position, type: ShapeType.Poster, attributes: attributes)
+  }
+  
+  func placeCubeShape(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+    var attributes: [String: String] = [:]
+    
+    let imageData:NSData = UIImagePNGRepresentation(image)! as NSData
+    let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
+    attributes["image"] = strBase64
+    attributes["period"] = period
+    attributes["specialOffer"] = specialOffer
+    
+    var pov = (scnView.pointOfView?.position)!
+    pov.y = position.y
+    pov.z = 2 * position.z - pov.z
+    pov.x = 2 * position.x - pov.x
+    attributes["lookAt.x"] = String(pov.x)
+    attributes["lookAt.z"] = String(pov.z)
+    
+    placeShape(position: position, type: ShapeType.Cube, attributes: attributes)
+  }
+  
+  func placeFootnoteShape(position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
+    var attributes: [String: String] = [:]
+    
+    let imageData:NSData = UIImagePNGRepresentation(image)! as NSData
+    let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
+    attributes["image"] = strBase64
+    attributes["period"] = period
+    attributes["specialOffer"] = specialOffer
+    
+    var pov = (scnView.pointOfView?.position)!
+    pov.y = position.y
+    pov.z = 2 * position.z - pov.z
+    pov.x = 2 * position.x - pov.x
+    attributes["lookAt.x"] = String(pov.x)
+    attributes["lookAt.z"] = String(pov.z)
+    
+    placeShape(position: position, type: ShapeType.Footnote, attributes: attributes)
+  }
+  
+  func placeFootnoteWithoutImageShape (position: SCNVector3, period: String, specialOffer: String) {
+    var attributes: [String: String] = [:]
+    attributes["period"] = period
+    attributes["specialOffer"] = specialOffer
+    
+    var pov = (scnView.pointOfView?.position)!
+    pov.y = position.y
+    pov.z = 2 * position.z - pov.z
+    pov.x = 2 * position.x - pov.x
+    attributes["lookAt.x"] = String(pov.x)
+    attributes["lookAt.z"] = String(pov.z)
+    
+    placeShape(position: position, type: ShapeType.FootnoteWithoutImage, attributes: attributes)
   }
   
   func placeLateralFootnoteShape (position: SCNVector3, image: UIImage, period: String, specialOffer: String) {
@@ -215,6 +280,36 @@ class ShapeManager {
     attributes["lookAt.z"] = String(pov.z)
     
     placeShape(position: position, type: ShapeType.LateralFootnote, attributes: attributes)
+  }
+  
+  func placeLateralFootnoteWithoutImageShape (position: SCNVector3, period: String, specialOffer: String) {
+    var attributes: [String: String] = [:]
+    attributes["period"] = period
+    attributes["specialOffer"] = specialOffer
+    
+    var pov = (scnView.pointOfView?.position)!
+    pov.y = position.y
+    pov.z = 2 * position.z - pov.z
+    pov.x = 2 * position.x - pov.x
+    attributes["lookAt.x"] = String(pov.x)
+    attributes["lookAt.z"] = String(pov.z)
+    
+    placeShape(position: position, type: ShapeType.LateralFootnoteWithoutImage, attributes: attributes)
+  }
+  
+  func placeArrowShape (position: SCNVector3, period: String, specialOffer: String) {
+    var attributes: [String: String] = [:]
+    attributes["period"] = period
+    attributes["specialOffer"] = specialOffer
+    
+    var pov = (scnView.pointOfView?.position)!
+    pov.y = position.y
+    pov.z = 2 * position.z - pov.z
+    pov.x = 2 * position.x - pov.x
+    attributes["lookAt.x"] = String(pov.x)
+    attributes["lookAt.z"] = String(pov.z)
+    
+    placeShape(position: position, type: ShapeType.Arrow, attributes: attributes)
   }
   
   func placeShape (position: SCNVector3, type: ShapeType, attributes: [String: String]) {
