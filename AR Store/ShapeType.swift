@@ -19,6 +19,45 @@ public enum ShapeType:Int {
   case FootnoteWithoutImage
   case Arrow
   
+  static func createCubeShape(image: UIImage, text: String) -> SCNGeometry {
+    let geometry = SCNBox(width: 100, height: 100, length: 100, chamferRadius: 0)
+    
+    let bgMaterial = SCNMaterial()
+    
+    let planeMaterial = SCNMaterial()
+    planeMaterial.diffuse.contents = image
+    planeMaterial.isDoubleSided = true
+    
+    let layer = CALayer()
+    layer.frame = CGRect(x: 0, y: 0, width: 1000, height: 1000)
+    layer.backgroundColor = UIColor.yellow.cgColor
+    
+    let textLayer = CATextLayer()
+    textLayer.frame = layer.bounds
+    let font = UIFont(name: "Futura", size: 100)
+    textLayer.font = font
+    textLayer.fontSize = 100
+    textLayer.string = text
+    textLayer.shouldRasterize = false
+    
+    textLayer.truncationMode = kCATruncationNone
+    textLayer.isWrapped = true
+    
+    textLayer.alignmentMode = kCAAlignmentCenter
+    textLayer.foregroundColor = UIColor.black.cgColor
+    textLayer.display()
+    textLayer.frame = CGRect(x: layer.bounds.origin.x + 50, y: ((layer.bounds.height - textLayer.fontSize) / 2) - 500, width: layer.bounds.width - 100, height: layer.bounds.height)
+    
+    layer.addSublayer(textLayer)
+    let textMaterial = SCNMaterial()
+    textMaterial.diffuse.contents = layer
+    textMaterial.isDoubleSided = true
+    
+    geometry.materials = [textMaterial, planeMaterial, textMaterial, planeMaterial, bgMaterial, bgMaterial]
+    
+    return geometry
+  }
+  
   static func createPlaneShape(image: UIImage) -> SCNGeometry {
     let imageRatio = image.size.height / image.size.width
     let desiredPlaneWidth: CGFloat = 1
