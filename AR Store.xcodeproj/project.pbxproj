@@ -12,6 +12,7 @@
 		844C781120B1864900648B7D /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844C781020B1864900648B7D /* DatabaseManager.swift */; };
 		844C781320B1888200648B7D /* ShapeFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844C781220B1888200648B7D /* ShapeFactory.swift */; };
 		844DB93A20ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844DB93920ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift */; };
+		844F744920C03EA900CDFF4E /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 844F744820C03EA800CDFF4E /* arrow.png */; };
 		847F4BC020B5D69600F173DD /* Designer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F4BBF20B5D69600F173DD /* Designer.swift */; };
 		847F4BC220B5E4E600F173DD /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 847F4BC120B5E4E600F173DD /* background.png */; };
 		847F4BC420B60BD400F173DD /* DropboxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F4BC320B60BD400F173DD /* DropboxController.swift */; };
@@ -34,6 +35,7 @@
 		844C781020B1864900648B7D /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		844C781220B1888200648B7D /* ShapeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeFactory.swift; sourceTree = "<group>"; };
 		844DB93920ACE8A1006F3C4E /* PosterAttributesEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterAttributesEditorViewController.swift; sourceTree = "<group>"; };
+		844F744820C03EA800CDFF4E /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow.png; path = ../../../../Downloads/arrow.png; sourceTree = "<group>"; };
 		847F4BBF20B5D69600F173DD /* Designer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Designer.swift; sourceTree = "<group>"; };
 		847F4BC120B5E4E600F173DD /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = ../../../../Downloads/background.png; sourceTree = "<group>"; };
 		847F4BC320B60BD400F173DD /* DropboxController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxController.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		A28C7961202A46F40052F3FB /* AR Store */ = {
 			isa = PBXGroup;
 			children = (
+				844F744820C03EA800CDFF4E /* arrow.png */,
 				84308C5C20B712D300D2762D /* footnote.png */,
 				847F4BC120B5E4E600F173DD /* background.png */,
 				A28C7962202A46F40052F3FB /* AppDelegate.swift */,
@@ -184,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A28C796D202A46F40052F3FB /* LaunchScreen.storyboard in Resources */,
+				844F744920C03EA900CDFF4E /* arrow.png in Resources */,
 				847F4BC220B5E4E600F173DD /* background.png in Resources */,
 				84308C5D20B712D400D2762D /* footnote.png in Resources */,
 				A28C796A202A46F40052F3FB /* Assets.xcassets in Resources */,

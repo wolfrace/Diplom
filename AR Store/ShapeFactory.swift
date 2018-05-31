@@ -262,7 +262,7 @@ class ShapeFactory {
     
     let periodNode = SCNNode(geometry: ShapeType.createLateralFootnoteTitleShape(period: period))
     periodNode.scale = SCNVector3Make(0.005, 0.005, 0.005)
-    relativePosition.x -= 0.025
+    relativePosition.x -= 0.02
     relativePosition.y += 0.1
     periodNode.position = relativePosition
     
@@ -327,18 +327,18 @@ class ShapeFactory {
     
     var relativePosition = SCNVector3Make(0, 0, 0)
     
-    let bgNode = SCNNode(geometry: ShapeType.createPlaneShape(image: UIImage(named: "footnote.png")!))
+    let bgNode = SCNNode(geometry: ShapeType.createPlaneShape(image: UIImage(named: "arrow.png")!))
     bgNode.position = relativePosition
     //planeNode.scale = SCNVector3(x:1.5, y:1.5, z:1.5)
     bgNode.position.z -= 0.01
     
-    let periodNode = SCNNode(geometry: ShapeType.createLateralFootnoteTitleShape(period: period))
+    let periodNode = SCNNode(geometry: ShapeType.createArrowTitleShape(period: period))
     periodNode.scale = SCNVector3Make(0.005, 0.005, 0.005)
-    relativePosition.x -= 0.025
-    relativePosition.y += 0.1
+    relativePosition.x -= 0.4
+    relativePosition.y += 0.05
     periodNode.position = relativePosition
     
-    let specialOfferNode = SCNNode(geometry: ShapeType.createLateralFootnoteTextShape(specialOffer: specialOffer))
+    let specialOfferNode = SCNNode(geometry: ShapeType.createArrowTextShape(specialOffer: specialOffer))
     specialOfferNode.scale = SCNVector3Make(0.005, 0.005, 0.005)
     relativePosition.y -= 0.5
     specialOfferNode.position = relativePosition
@@ -351,7 +351,7 @@ class ShapeFactory {
     posterNode.addChildNode(periodNode)
     posterNode.addChildNode(specialOfferNode)
     
-    posterNode.scale = SCNVector3(x:0.4, y:0.4, z:0.4)
+    posterNode.scale = SCNVector3(x:0.7, y:0.7, z:0.7)
     
     return posterNode
   }
