@@ -188,11 +188,11 @@ public enum ShapeType:Int {
     return text
   }
   
-  static func createLateralFootnoteTitleShape(period: String) -> SCNGeometry {
+  static func createLateralFootnoteTitleShape(period: String, width: Int, size: CGFloat = 10) -> SCNGeometry {
     let text = SCNText(string: period, extrusionDepth: 0.02)
-    let font = UIFont(name: "Futura", size: 10)
+    let font = UIFont(name: "Futura", size: size)
     text.font = font
-    text.alignmentMode = kCAAlignmentLeft
+    text.alignmentMode = kCAAlignmentCenter
     text.firstMaterial?.diffuse.contents = UIColor.white
     text.firstMaterial?.specular.contents = UIColor.white
     text.firstMaterial?.isDoubleSided = true
@@ -200,14 +200,14 @@ public enum ShapeType:Int {
     text.truncationMode = kCATruncationNone
     text.isWrapped = true
     
-    text.containerFrame = CGRect(origin: .zero, size: CGSize(width: 100, height: 20))
+    text.containerFrame = CGRect(origin: .zero, size: CGSize(width: width, height: 20))
     
     return text
   }
   
-  static func createLateralFootnoteTextShape(specialOffer: String) -> SCNGeometry {
+  static func createLateralFootnoteTextShape(specialOffer: String, width: Int, size: CGFloat = 12) -> SCNGeometry {
     let text = SCNText(string: specialOffer, extrusionDepth: 0.02)
-    let font = UIFont(name: "Futura", size: 12)
+    let font = UIFont(name: "Futura", size: size)
     text.font = font
     text.alignmentMode = kCAAlignmentLeft
     text.firstMaterial?.diffuse.contents = UIColor.white
@@ -217,7 +217,7 @@ public enum ShapeType:Int {
     text.truncationMode = kCATruncationNone
     text.isWrapped = true
     
-    text.containerFrame = CGRect(origin: .zero, size: CGSize(width: 100.0, height: 100))
+    text.containerFrame = CGRect(origin: .zero, size: CGSize(width: width, height: 100))
     
     return text
   }
