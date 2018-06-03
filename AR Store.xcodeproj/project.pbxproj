@@ -17,6 +17,7 @@
 		847F4BC220B5E4E600F173DD /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 847F4BC120B5E4E600F173DD /* background.png */; };
 		847F4BC420B60BD400F173DD /* DropboxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F4BC320B60BD400F173DD /* DropboxController.swift */; };
 		848D0B2420ACAED80087A743 /* Database.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 848D0B2220ACAED80087A743 /* Database.xcdatamodeld */; };
+		849A21B220C3F50E0091752F /* footnote_vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = 849A21B120C3F50D0091752F /* footnote_vertical.png */; };
 		A28C7963202A46F40052F3FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C7962202A46F40052F3FB /* AppDelegate.swift */; };
 		A28C7965202A46F40052F3FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C7964202A46F40052F3FB /* ViewController.swift */; };
 		A28C7968202A46F40052F3FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A28C7966202A46F40052F3FB /* Main.storyboard */; };
@@ -40,6 +41,7 @@
 		847F4BC120B5E4E600F173DD /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = ../../../../Downloads/background.png; sourceTree = "<group>"; };
 		847F4BC320B60BD400F173DD /* DropboxController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxController.swift; sourceTree = "<group>"; };
 		848D0B2320ACAED80087A743 /* Attributes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Attributes.xcdatamodel; sourceTree = "<group>"; };
+		849A21B120C3F50D0091752F /* footnote_vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = footnote_vertical.png; path = ../../../../Downloads/footnote_vertical.png; sourceTree = "<group>"; };
 		A28C795F202A46F40052F3FB /* AR Store.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AR Store.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A28C7962202A46F40052F3FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A28C7964202A46F40052F3FB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 		A28C7961202A46F40052F3FB /* AR Store */ = {
 			isa = PBXGroup;
 			children = (
+				849A21B120C3F50D0091752F /* footnote_vertical.png */,
 				844F744820C03EA800CDFF4E /* arrow.png */,
 				84308C5C20B712D300D2762D /* footnote.png */,
 				847F4BC120B5E4E600F173DD /* background.png */,
@@ -188,6 +191,7 @@
 			files = (
 				A28C796D202A46F40052F3FB /* LaunchScreen.storyboard in Resources */,
 				844F744920C03EA900CDFF4E /* arrow.png in Resources */,
+				849A21B220C3F50E0091752F /* footnote_vertical.png in Resources */,
 				847F4BC220B5E4E600F173DD /* background.png in Resources */,
 				84308C5D20B712D400D2762D /* footnote.png in Resources */,
 				A28C796A202A46F40052F3FB /* Assets.xcassets in Resources */,

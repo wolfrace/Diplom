@@ -105,7 +105,6 @@ class ShapeFactory {
     return cubeNode
   }
   
-  // #TODO
   func createFootnote(position: SCNVector3, attributes: [String: String]) -> SCNNode {
     let imageBase64 = attributes["image"]!
     let dataDecoded : Data = Data(base64Encoded: imageBase64, options: .ignoreUnknownCharacters)!
@@ -117,21 +116,22 @@ class ShapeFactory {
     var relativePosition = SCNVector3Make(0, 0, 0)
     let planeNode = SCNNode(geometry: ShapeType.createPlaneShape(image: image))
     planeNode.position = relativePosition
-    planeNode.position.x -= 0.22
-    planeNode.scale = SCNVector3(x:0.4, y:0.4, z:0.4)
+    //planeNode.position.x -= 0.22
+    planeNode.position.y += 0.35
+    planeNode.scale = SCNVector3(x:0.5, y:0.5, z:0.5)
     
-    let bgNode = SCNNode(geometry: ShapeType.createPlaneShape(image: UIImage(named: "footnote.png")!))
+    let bgNode = SCNNode(geometry: ShapeType.createPlaneShape(image: UIImage(named: "footnote_vertical.png")!))
     bgNode.position = relativePosition
     //planeNode.scale = SCNVector3(x:1.5, y:1.5, z:1.5)
     bgNode.position.z -= 0.01
     
-    let periodNode = SCNNode(geometry: ShapeType.createLateralFootnoteTitleShape(period: period, width: 100))
+    let periodNode = SCNNode(geometry: ShapeType.createFootnoteTitleShape(period: period, width: 200, size: 12))
     periodNode.scale = SCNVector3Make(0.005, 0.005, 0.005)
-    relativePosition.x -= 0.025
-    relativePosition.y += 0.1
+    relativePosition.x -= 0.5
+    relativePosition.y -= 0.1
     periodNode.position = relativePosition
     
-    let specialOfferNode = SCNNode(geometry: ShapeType.createLateralFootnoteTextShape(specialOffer: specialOffer, width: 100))
+    let specialOfferNode = SCNNode(geometry: ShapeType.createFootnoteTextShape(specialOffer: specialOffer, width: 200, size: 15))
     specialOfferNode.scale = SCNVector3Make(0.005, 0.005, 0.005)
     relativePosition.y -= 0.5
     specialOfferNode.position = relativePosition
@@ -150,7 +150,6 @@ class ShapeFactory {
     return posterNode
   }
   
-  // #TODO
   func createFootnoteWithoutImage(position: SCNVector3, attributes: [String: String]) -> SCNNode {
     let period = attributes["period"]!
     let specialOffer = attributes["specialOffer"]!
@@ -158,20 +157,20 @@ class ShapeFactory {
     
     var relativePosition = SCNVector3Make(0, 0, 0)
     
-    let bgNode = SCNNode(geometry: ShapeType.createPlaneShape(image: UIImage(named: "footnote.png")!))
+    let bgNode = SCNNode(geometry: ShapeType.createPlaneShape(image: UIImage(named: "footnote_vertical.png")!))
     bgNode.position = relativePosition
     //planeNode.scale = SCNVector3(x:1.5, y:1.5, z:1.5)
     bgNode.position.z -= 0.01
     
-    let periodNode = SCNNode(geometry: ShapeType.createLateralFootnoteTitleShape(period: period, width: 100))
+    let periodNode = SCNNode(geometry: ShapeType.createFootnoteTitleShape(period: period, width: 200, size: 15))
     periodNode.scale = SCNVector3Make(0.005, 0.005, 0.005)
-    relativePosition.x -= 0.025
-    relativePosition.y += 0.1
+    relativePosition.x -= 0.5
+    relativePosition.y += 0.4
     periodNode.position = relativePosition
     
-    let specialOfferNode = SCNNode(geometry: ShapeType.createLateralFootnoteTextShape(specialOffer: specialOffer, width: 100))
+    let specialOfferNode = SCNNode(geometry: ShapeType.createFootnoteTextShape(specialOffer: specialOffer, width: 200, size: 17))
     specialOfferNode.scale = SCNVector3Make(0.005, 0.005, 0.005)
-    relativePosition.y -= 0.5
+    relativePosition.y -= 0.6
     specialOfferNode.position = relativePosition
     
     let posterNode = SCNNode()

@@ -56,8 +56,8 @@ class ViewController
   private var planesVizAnchors = [ARAnchor]();
   private var planesVizNodes = [UUID: SCNNode]();
   
-  private var showFeatures: Bool = true
-  private var planeDetection: Bool = true
+  private var showFeatures: Bool = false
+  private var planeDetection: Bool = false
 
   private var locationManager: CLLocationManager!
   private var lastLocation: CLLocation? = nil

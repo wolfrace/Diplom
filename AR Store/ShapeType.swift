@@ -222,6 +222,40 @@ public enum ShapeType:Int {
     return text
   }
   
+  static func createFootnoteTitleShape(period: String, width: Int, size: CGFloat = 10) -> SCNGeometry {
+    let text = SCNText(string: period, extrusionDepth: 0.02)
+    let font = UIFont(name: "Futura", size: size)
+    text.font = font
+    text.alignmentMode = kCAAlignmentCenter
+    text.firstMaterial?.diffuse.contents = UIColor.white
+    text.firstMaterial?.specular.contents = UIColor.white
+    text.firstMaterial?.isDoubleSided = true
+    text.chamferRadius = 0.01
+    text.truncationMode = kCATruncationNone
+    text.isWrapped = true
+    
+    text.containerFrame = CGRect(origin: .zero, size: CGSize(width: width, height: 20))
+    
+    return text
+  }
+  
+  static func createFootnoteTextShape(specialOffer: String, width: Int, size: CGFloat = 12) -> SCNGeometry {
+    let text = SCNText(string: specialOffer, extrusionDepth: 0.02)
+    let font = UIFont(name: "Futura", size: size)
+    text.font = font
+    text.alignmentMode = kCAAlignmentCenter
+    text.firstMaterial?.diffuse.contents = UIColor.white
+    text.firstMaterial?.specular.contents = UIColor.white
+    text.firstMaterial?.isDoubleSided = true
+    text.chamferRadius = 0.01
+    text.truncationMode = kCATruncationNone
+    text.isWrapped = true
+    
+    text.containerFrame = CGRect(origin: .zero, size: CGSize(width: width, height: 100))
+    
+    return text
+  }
+  
   static func createArrowTitleShape(period: String) -> SCNGeometry {
     let text = SCNText(string: period, extrusionDepth: 0.02)
     let font = UIFont(name: "Futura", size: 10)
